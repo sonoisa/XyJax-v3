@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>XyJax v3 Test Page</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script>
+  MathJax = {
+    loader: {
+      load: ['[custom]/xypic.js'],
+      paths: {custom: '../build'}
+    },
+    tex: {
+      packages: {'[+]': ['xypic']}
+    }
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+  <!-- <script id="MathJax-script" async src="../mathjax/es5/tex-chtml.js"></script> -->
+</head>
+<body>
+
+<!--
+\[
+\int_0^\infty e^{-x^2/2} = ?
+\]
+
+\begin{xy}
+\xymatrix {
+U \ar@/_/[ddr]_y \ar@{.>}[dr]|{\langle x,y \rangle} \ar@/^/[drr]^x \\
+ & X \times_Z Y \ar[d]^q \ar[r]_p & X \ar[d]_f \\
+ & Y \ar[r]^g & Z
+}
+\end{xy}
+
+\[
+\xymatrix {
+U \ar@/_/[ddr]_y \ar@{.>}[dr]|{\langle x,y \rangle} \ar@/^/[drr]^x \\
+ & X \times_Z Y \ar[d]^q \ar[r]_p & X \ar[d]_f \\
+ & Y \ar[r]^g & Z
+}
+\]
+-->
+
+
+<blockquote>
+
+<h1>XyJax version 3 Test Page</h1>
+<hr>
+<p>
+
+\[
+\xymatrix{A \ar@{}[dr]|{=} \ar[d] \ar[r] & B \ar[d] \\ B \ar[r] & C }
+\]
+
+\[
+\newcommand\degrees{^{\circ}}
+\begin{xy}
+\xyimport(7,50)(-0.5, 0){\bbox[4cm]{}}*\frm{-},
+,0;/u2pc/**{}
+,(.5,5)*@{|}*+!R{40\degrees}
+,(.5,25)*@{|}*+!R{60\degrees}
+,(.5,45)*@{|}*+!R{80\degrees}
+,0;/r2pc/**{}
+,(1,0)*@_{|}*++!U\txt\small{Su}
+,(2,0)*@_{|}*++!U\txt\small{Mo}
+,(3,0)*@_{|}*++!U\txt\small{Tu}
+,(4,0)*@_{|}*++!U\txt\small{We}
+,(5,0)*@_{|}*++!U\txt\small{Th}
+,(6,0)*@_{|}*++!U\txt\small{Fr}
+,(7,0)*@_{|}*++!U\txt\small{Sa}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyimport(3.7, 3.7)(1.4, 1.4){\includegraphics[width=15em, height=15em]{ellip.png}}
+,!D+<2pc, -1pc>*+!U\txt{Rathinal points on the elliptic curve: $x^3+y^3=7$.}
+,(1,0)*+!U{1},
+,(-1,0)*+!U{-1}
+,(0,1)*+!R{1},
+,(0,-1)*+!R{-1}
+,(2,-1)*+!RU{P}
+,(-1,2)*+!RU{-P}
+,(1.3333,1.6667)*+!UR{-2P}
+,(1.6667,1.3333)*!DL{\;2P}
+,(-.5,1.9)*++!DL{3P}
+,(1.9,-.5)*!DL{\;-3P}
+,(-1,2.3)*+++!D{\infty}*=0{},{\ar+(-.2,.2)}
+,(.5,2.3)*+++!D{\infty}*=0{},{\ar+(-.2,.2)}
+,(2.3,-1)*+++!L{\infty}*=0{},{\ar+(.2,-.2)}
+\end{xy}
+\]
+
+\[
+\includegraphics[width=8em, height=8em]{ellip.png}A
+\begin{xy}
+0*{\includegraphics[width=8em, height=8em]{ellip.png}}*\frm<0.5em>{-}
+\end{xy}
+B
+\]
+
+\[
+A
+\begin{xy}
+<-3em,0em>;0**@{-},
+0*[F]{ABCDEF}
+\end{xy}
+B
+\]
+
+
+\[
+\newcommand\nt[1]{\langle\text{#1}\rangle}
+\newcommand\from{\leftarrow}
+\begin{array}{clcll}\hline
+\text{Impl} & \text{Syntax} &&&\quad& \text{Action} \\\hline
+\checkmark & \nt{xy env} & \to & \bf\text{\\begin{xy} $\nt{pos}\,\nt{decor}$ \\end{xy}} && c \from \nt{coord} \\
+\checkmark & \nt{pos} & \to & \nt{coord} && c \from \nt{coord} \\
+\checkmark &  & | & \nt{pos}\,{\bf+}\,\nt{coord} && c \from \nt{pos} + \nt{coord}^{3a} \\
+\checkmark &  & | & \nt{pos}\,{\bf-}\,\nt{coord} && c \from \nt{pos} - \nt{coord}^{3a} \\
+\checkmark &  & | & \nt{pos}\,{\bf!}\,\nt{coord} && c \from \text{$\nt{pos}$ then skew$^{3b}$ $c$ by $\nt{coord}$} \\
+\checkmark &  & | & \nt{pos}\,{\bf.}\,\nt{coord} && c \from \text{$\nt{pos}$ but also covering$^{3c}$ $\nt{coord}$} \\
+\checkmark &  & | & \nt{pos}\,{\bf,}\,\nt{coord} && c \from \text{$\nt{pos}$ then $c \from \nt{coord}$} \\
+\hline
+\end{array}
+\]
+
+\[A
+\xymatrix{
+(f_1)_*x_1 \ar[r]_a \ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \ar[d]^{(f_2)_*b_2} \\
+(f_1)_*x'_1 \ar[r]^{a'} & (f_2)_*x'_2
+}B
+\]
+
+\[
+A\begin{xy}
+\xymatrix{
+R \ar@<1ex>[r] \ar@<-1ex>[r] &
+U \ar[r]^{a} &
+F
+}
+\end{xy}B
+\]
+
+
+\[
+\newdir{m}{!/4.5pt/@{|}*:(1,-.2)@^{>}*:(1,.2)@_{>}}
+\begin{xy}
+0*+{A}="a", <5pc, 1pc>*+{B}="b"
+\ar @{=m} "a";"b"
+\end{xy}
+\]
+
+\[
+\newdir{m}{!/4.5pt/@{|}*:(1,-.2)@^{>}*:(1,.2)@_{>}}
+\begin{xy}
+0*+{A}="a", <5pc, 1pc>*+{B}="b"
+\ar @{=m} "a";"b"
+\end{xy}
+\]
+
+\[
+\newdir{m}{{}*!/-2pt/@^{(}}
+\begin{xy}
+0*+{A}="a", <5pc, 1pc>*+{B}="b"
+\ar @{m->} "a";"b"
+\end{xy}
+\]
+
+\[
+\newdir{ >}{{}*!/-3pt/@{>}}
+\begin{xy}
+0*+{A}="a", <5pc, 1pc>*+{B}="b"
+\ar @{>->} "a";"b" <2pt>
+\ar @{ >->} "a";"b" <-2pt>
+\end{xy}
+\]
+
+
+\[
+\begin{xy}
+\xymatrix{
+\mathcal R \ar[r]<2pt>^{r_1} \ar[r]<-2pt>_{r_2} & S \ar[r]^q \ar[dr]_f & S / \mathcal R \ar@{.>}[d]^{\bar f} \\
+ & & T
+}
+\end{xy}
+\]
+
+
+\[
+\newcommand\Ker{\mathrm{Ker}\,}
+\newcommand\Coker{\mathrm{Coker}\,}
+\begin{xy}
+\xymatrix {
+  0 \ar@[red][r] & {\Ker f} \ar@[red][r]
+  & {\Ker a} \ar@[red][r] \ar[d]
+  & {\Ker b} \ar@[red][r] \ar[d] 
+  & {\Ker c} \ar@[red]@`{[]+/r10pc/, [dddll]+/l10pc/}[dddll]_(0.55)d \ar[d]
+\\
+  &
+  & A \ar@[blue][r]^f \ar@[blue][d]^a 
+  & B \ar@[blue][r] \ar@[blue][d]^b 
+  & C \ar@[blue][r] \ar@[blue][d]^c 
+  & 0
+\\
+  & 0 \ar@[blue][r] & A' \ar@[blue][r] \ar[d] 
+  & B' \ar@[blue][r]^{g'} \ar[d] 
+  & C' \ar[d]
+\\
+  &
+  & {\Coker a} \ar@[red][r] 
+  & {\Coker b} \ar@[red][r] 
+  & {\Coker c} \ar@[red][r] 
+  & {\Coker g'} \ar@[red][r] 
+  & 0
+}
+\end{xy}
+\]
+
+
+\[
+\begin{xy}
+\xymatrix {
+*+!!A{c} \ar[r] \ar[d] & 
+*+!!A{a\frac{x}{y}} \ar[r] \ar[d] \ar[ld] & 
+*+!!A{\underline{\underline{g}}} \ar[r] \ar[d] \ar[ld] & 
+*+!!A{\hat{\hat{\overline{\overline{h^2}}}}} \ar[d] \ar[ld] \\
+    {c} \ar[r] & 
+    {a\frac{x}{y}} \ar[r] & 
+    {\underline{\underline{g}}} \ar[r] & 
+    {\hat{\hat{\overline{\overline{h^2}}}}} \\
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0+/r-4pc/  *@{x} *    \txt{A},
+0+/r-3.5pc/*@{x} *!   \txt{A},
+0+/r-3pc/  *@{x} *!!A \txt{A},
+0+/r-2pc/  *@{x} *    {A},
+0+/r-1.5pc/*@{x} *!   {A},
+0+/r-1pc/  *@{x} *!!A {A},
+0          *@{x} *    {\displaystyle \int},
+0+/r0.5pc/ *@{x} *!   {\displaystyle \int},
+0+/r1pc/   *@{x} *!!A {\displaystyle \int},
+0+/r2pc/   *@{x} *    {=},
+0+/r2.5pc/ *@{x} *!   {=},
+0+/r3pc/   *@{x} *!!A {=},
+0+/r4pc/   *@{x} *    \object{\displaystyle \int},
+0+/r4.5pc/ *@{x} *!   \object{\displaystyle \int},
+0+/r5pc/   *@{x} *!!A \object{\displaystyle \int},
+0+/r7pc/   *@{x} *    \composite{{\displaystyle \int}*{ABC}},
+0+/r8pc/   *@{x} *!   \composite{{\displaystyle \int}*{ABC}},
+0+/r9pc/   *@{x} *!!A \composite{{\displaystyle \int}*{ABC}},
+0+/r11pc/  *@{x} *    \xybox{0+/d1pc/;0+/r1pc/**@{-}},
+0+/r13pc/  *@{x} *!   \xybox{0+/d1pc/;0+/r1pc/**@{-}},
+0+/r15pc/  *@{x} *!!A \xybox{0+/d1pc/;0+/r1pc/**@{-}},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix @=4pc {
+  x \ar^(0.35){f'}[r] \ruppertwocell^f{\alpha} \rlowertwocell_{f''}{\alpha'}
+& y
+}
+\end{xy} = \begin{xy}
+\xymatrix @=4pc {
+  x \rtwocell^f_{f''}{*[r]{\scriptstyle \alpha'\cdot\alpha}}
+& y
+}
+\end{xy} 
+\]
+
+\[
+\begin{xy}
+\xymatrix @=5pc {
+A \rtwocell^f_g{\alpha} & B \\
+A \ruppertwocell^f{\alpha} \rlowertwocell_h{\beta} \ar[r]_(.35)g & B \\
+A \xuppertwocell[r]{}^f{\alpha} \xlowertwocell[r]{}_h{\beta} \ar[r]_(.35)g & B \\
+\txt{Clouds}\rtwocell<10>
+ _{\tiny evapolation}
+ ^{\tiny precipitation}
+ {'{\mathbf{H_2 O}}}
+& \txt{Oceans} \\
+P \rtwocell~!~'{\dir{>>}}~`{\dir{|}}^{<1.5>M}_{<1.5>M'}{=f} & S \\
+P \rtwocell^{<1.5>*\dir{x}}{=f} & S \\
+\txt{FUn} \rtwocell<8>~^{{?}}~_{{\circ}~**{\bullet}}{!\&} & \txt{gaMES} \\
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix @=5pc {
+A \rtwocell^f_g^h & B \ruppertwocell^f{\alpha} \rlowertwocell<-15>_h{\beta} \ar[r]_(.35)g & C\\
+A \ruppertwocell^{f}{\alpha} \rlowertwocell_h{\beta} \ar[r]_(.35)g & B \\
+P \rtwocell~!~'{\dir{>>}}~`{\dir{|}}^{<1.5>M}_{<1.5>M'}{=f} & S \\
+P \rtwocell^{<2>*@{>}}_{<2>*@{>}}{<3>f} & S & P' \ltwocell^{<2>*@{>}}_{<2>*@{>}}{<3>f} \\
+P \rtwocell^{f} & S \rtwocell^f & R \\
+P \rtwocell\omit^f{\alpha} & S \rtwocell<\omit>^f{\beta} & R \\
+P \rcompositemap_f^g & S \\
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0*++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[r]^3 \ar[d]_3 \POS+/lu 1em/*\txt\tiny{1} & 
+1 \ar[d]^1 \POS+/ru 1em/*\txt\tiny{2}  \\
+3 \POS+/ld 1em/*\txt\tiny{1'} & 
+1 \POS+/rd 1em/*\txt\tiny{2'}
+}}="lu",
+
+"lu"+/r8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[d]_3 \ar[rd]^3 & 
+1 \ar[l]_3 \\
+3 & 
+1 \ar[u]_1
+}}="u",
+
+"u"+/r8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[r]^3 & 
+1 \ar[ld]^(0.7){3} \ar[d]^2 \\
+3 \ar[u]^3 & 
+1 \ar[lu]_(0.7){3}
+}}="ru",
+
+"ru"+/d8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[d]_6 \ar[rd]_(0.7){3} & 
+1 \ar[l]_3 \\
+3 \ar[ru]_(0.7)3 & 
+1 \ar[u]_2
+}}="r",
+
+"r"+/d8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[r]^3 & 
+1 \ar[ld]^(0.7){3} \ar[d]^1 \\
+3 \ar[u]^6 & 
+1 \ar[lu]_(0.7){3}
+}}="rd",
+
+"rd"+/l8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[d]_3 & 
+1 \ar[l]_3 \\
+3 \ar[ru]_3 & 
+1 \ar[u]_1
+}}="d",
+
+"d"+/l8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 \ar[r]^3 & 
+1 \\
+3 \ar[u]^3 & 
+1 \ar[u]_1
+}}="ld",
+
+"lu"+/d8em/ *++[c]\xybox{
+\xymatrix @=1.5pc @*[F-] @*[o] @*+= {
+3 &
+1 \ar[l]_3 \ar[d]^1 \\
+3 \ar[u]^3 & 
+1 
+}}="l",
+
+\POS "lu" \ar "u"^2
+\POS "u" \ar "ru"^1
+\POS "ru" \ar "r"^2
+\POS "r" \ar "rd"^1
+\POS "rd" \ar "d"_2
+\POS "d" \ar "ld"_1
+\POS "lu" \ar "l"_1
+\POS "l" \ar "ld"_2
+\end{xy}
+\]
+
+\[
+\xymatrix {
+& x \ar[r] \ar[d]^\alpha &
+y \ar[r] \ar[d]^\beta &
+z \ar[r] \ar[d]^\gamma &
+0 \\
+0 \ar[r] & u \ar[r] & v \ar[r] & w
+}
+\]
+
+\[
+\begin{xy}
+\xymatrix @W=3pc @H=1pc @R=0pc @*[F-] {
+: \save+<-4pc,1pc>*{\it root}
+    \ar[]
+  \restore \\
+{\bullet}
+  \save*{}
+    \ar `r[dd]+/r4pc/ `[dd] [dd]
+  \restore \\
+{\bullet}
+  \save*{}
+    \ar `r[d]+/r3pc/ `[d]+/d2pc/ `[uu]+/l3pc/ `[uu] [uu]
+  \restore \\
+1
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix @!=1pc {
+**[l] A\times B \ar[r]^{/A} \ar[d]_{/B} & B \ar[d]^{\times A} \\
+A \ar[r]_{B\times} & **[r] B\times A
+}
+\end{xy}
+\]
+
+
+\[
+\begin{xy}
+\xymatrix"*"{A&B\\C&D}
+\POS *\frm{--}
+\POS-(10,3)
+\xymatrix{
+A' \ar@{.}["*"] & B' \ar@{.}["*"] \\
+C' \ar@{.}["*"] & D' \ar@{.}["*"]
+}
+\POS*\frm{--}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix {
+{\mathscr{C}} & 
+  a \ar[r]^f \ar[dr]_{g \circ f} & 
+  b \ar[d]^g & 
+  \ar@{~>}[r]^F & &
+  Fa \ar[r]^{Ff} \ar[dr]_*[l]{\scriptstyle F(g\circ f) = Fg\circ Ff} & 
+  Fb \ar[d]^{Fg} & {\mathscr{D}} \\
+&& c & \ar@{~>}[r]^F &&& Fc
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix {
+*\txt{start} \ar[r]
+ & *++[o][F-]{0} \ar@(r,u)[]^b \ar[r]_a
+ & *++[o][F-]{1} \ar[r]^b \ar@(r,d)[]_a
+ & *++[o][F-]{2} \ar[r]^b
+  \ar `dr_l[l] `_ur[l] _(.2)a[l]
+ & *++[o][F=]{3}
+  \ar `ur^l[lll] `^dr[lll]^b [lll]
+  \ar `dr_l[ll] `_ur[ll] [ll]
+}
+\end{xy}
+\]
+
+
+\[
+\begin{xy}
+\xymatrix @R=1pc {
+\zeta \ar@{|->} [dd] \ar@{.>}_\theta [rd] \ar@/^/^\psi [rrd] \\
+ & \xi \ar@{|->} [dd] \ar_\phi [r] & \eta \ar@{|->} [dd] \\
+ P_{F}\zeta \ar_t [rd] \ar@/^/ [rrd]|!{[ru];[rd]}{\hole} \\
+ & P_{F}\xi \ar [r] & P_{F}\eta
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix {
+U \ar@/_/[ddr]_y \ar@{.>}[dr]|{\langle x,y \rangle} \ar@/^/[drr]^x \\
+ & X \times_Z Y \ar[d]^q \ar[r]_p & X \ar[d]_f \\
+ & Y \ar[r]^g & Z
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix {
+A \POS[];[d]**\dir{~},[];[dr]**\dir{-} \\
+B & C \POS[];[l]**\dir{.}
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix @ur @*[F-] @W=3pc @H=1pc @R=0pc {
+{ABC} \ar "2,2" & {\int_0^\infty} \\
+**[Fo:<0.5pc>]{ABC} & {\displaystyle \int_0^\infty} \\
+*[F-]{A} & \\
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xymatrix@*[F-]"*"{
+ABC \ar [rd] \ar ["*"0,1] & B \\
+A{CDE}{C\&DE} & D \\
+\dir{x} & \{\&\} & {\displaystyle \int_0^\infty} \\
+\txt{ABC} & {} \ar "3,2" \\
+*{ABC} c+/u10pt/ \ar "3,1"
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+\xymatrix
+@!R @!C @! @!R0 @!R=1pc @!C0 @!C=1pc @!0 @!=1pc @M=1.1pc @W=0em @H=1em @L=0.2em @R=3pc @C=2pc @+=0.1pc
+ {
+@*[F-] @*[o]
+ABC \ar "1,2" \ar "2,1" & B \\
+A{CDE}{C\&DE} & D \\
+\dir{x} & \{\&\} \\
+\txt{ABC} & \xymatrix{A&B\\C&D} \ar "r" \\
+*{ABC} c+/u10pt/ \ar "ur"
+}
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<3pc,0pc>:(0,0),
+0*+\txt{start}="start",
+(1,0) *+=+[o][F-]{0}="0",
+(2,0) *+=+[o][F-]{1}="1",
+(3,0) *+=+[o][F-]{2}="2",
+(4,0) *+=+[o][F=]{3}="3",
+
+\POS "start" \ar "0"
+\POS "0" \ar@(r,u) "0"^b \ar "1"_a
+\POS "1" \ar "2"^b \ar@(r,d) "1"_a
+\POS "2" \ar "3"^b
+  \ar `dr_l "1" `_ur "1" _(.2)a "1"
+\POS "3" \ar `ur^l "0" `^dr "0"^b "0"
+  \ar `dr_l "1" `_ur "1" "1"
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0*\cir<2pt>{}="a", (20,0)*\cir<2pt>{}="b",
+"a";"a" **\crv{+/ur 3pc/ & p+/ul 3pc/} ?(.5)*!/^3pt/{a}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*{\circ}="b", \ar @[red] @(ur,ul) c
+\ar@{.>}@(dr,ul) (20,0)*{\bullet}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS ( 0, 10) *\cir<2pt>{}="a",
+     (20,-10) *\cir<2pt>{}="b"
+\POS "a" \ar @`{(0,-30), (20,-30)} "b" |\uparrow
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS ( 0, 10) *\cir<2pt>{}="a",
+     (20,-10) *\cir<2pt>{}="b"
+\POS "a" \ar @2 @/^1ex/ "b" |\uparrow
+\POS "a" \ar @2 @/_1ex/ "b" |\downarrow
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS ( 0, 10) *+\cir<2pt>{}="a",
+     (20,-10) *+\cir<2pt>{}="b",
+     (30,10) *+\cir<2pt>{}="c",
+\POS "a" \ar @/^1.5ex/ ^{f} '"b" "c" |\uparrow
+\POS "a" \ar @/_1.5ex/ "b" |\downarrow
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS (0,0) \ar @^{(->} (20,7)
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS (0,0) \ar @{>>*\composite{\dir{x}*\dir{+}}<<} (20,7)
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\POS (0,0) \ar @{*{x}*{y}*{z}} (20,7)
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+( 0, 10) *\cir<2pt>{}="a",
+(20,-10) *\cir<2pt>{}="b",
+"a";"b" **\crv{{**@{} ?+/_ 3ex/}}
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+\POS ( 0, 10) *\cir<2pt>{}="a",
+     (20,-10) *\cir<2pt>{}="b"
+\POS "a" \ar @/^1.5ex/ "b" |\uparrow
+\POS "a" \ar @/_1.5ex/ "b" |\downarrow
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+*{\circ}="b" \ar @(ur, ul) c
+\ar @{.>}@(dr, ul) (20,0)*{\bullet}
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+\ar @^{(->} (20,7)
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*+{0}
+\PATH ~={**@{-}} ~+{|*{\hole}}
+'(1,20)*+{1} '(-2,40)*+{2} (0,60)*+{3}
+
+\POS *+{0}
+\PATH ~={**@{-}} ~+{|*{a}}
+'(20,1)*+{1} '(40,-2)*+{2} (60,0)*+{3}
+\end{xy}
+\]
+
+
+\[
+\begin{xy}
+0;<0.8pc,0pc>:
+(0,0)="o", "o"*!/rd 1em/{O},
+"o"+/l 3pc/="xs";"o"+/r 13pc/="xe" **@{-} ?>*@{>} ?>*!/u 1em/{x},
+"o"+/d 3pc/="ys";"o"+/u 8pc/="ye" **@{-} ?>*@{>} ?>*!/r 1em/{y},
+(13,10)*{y=f(x)},
+(13,-3)*{x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}},
+
+(13.5,0)="x0" *!/u 1em/{x_0},
+
+(-3,-4)="A", (15,9)="B", (1.5,5)="C", (10,-2.5)="D",
+"A";"B" **\crv{"C"&"D"},
+?!{"x0"+/d 3pc/;"x0"+/u 10pc/}="fx0" +/3pc/="L1e" -/12pc/="L1s";"L1e" **\dir{--},
+?!{"xs";"xe"}="x1" *!/u 1em/{x_1},
+"fx0";"fx0"+/l 20pc/ **@{} ?!{"ys";"ye"}="y0" *!/r 1em/{f(x_0)},
+"fx0";"y0" **@{.},
+"x0";"fx0" **@{.},
+"L1e" *!/l 5em/{y=f(x_0)+f'(x_0)(x-x_0)},
+
+"A";"B" **\crv{~**@{} "C"&"D"},
+?!{"x1"+/d 3pc/;"x1"+/u 10pc/}="fx1" +/5pc/="L2e" -/15pc/="L2s";"L2e" **\dir{--},
+?!{"xs";"xe"}="x2" *!/u 1em/{x_2},
+"fx1";"fx1"+/l 20pc/ **@{} ?!{"ys";"ye"}="y1" *!/r 1em/{f(x_1)},
+"fx1";"y1" **@{.},
+"x1";"fx1" **@{.},
+"L2e" *!/l 5em/{y=f(x_1)+f'(x_1)(x-x_1)},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*+{0}
+\PATH ~={**@{-}} ~+{|*{a}}
+'(50,1)*+{1} '(100,-2)*+{2} (150,0)*+{3}
+\end{xy}
+\]
+
+Xy-picの例\( (\begin{xy}(0,0);<1cm,0mm>**@{-} ?>*@{>} ?<>*!/_2mm/{\scriptstyle f}\end{xy}) \)です。
+Xy-picの例\( (\begin{xy}(0,0);<1cm,10mm>**@{} ?>*@3{>}\end{xy}) \)です。
+
+\[
+\begin{xy}
+(0,0) *\txt<10em>\displaystyle{ abc \\ defghi }
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0) *{O},
+(10,0) *\xybox{ (0,0)*@{x}; (10,10)*@{*}, **@{-} }
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*\hbox{abc}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*\composite{ @{>} * @{|} }
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*[red][green][=NEW][blue]{A},
++/r2em/*[NEW]{B}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*=<30pt,10pt>[F**:aliceblue]{}; +/r25pt/*[r]{\text{aliceblue}};
++/d2em/*=<30pt,10pt>[F**:antiquewhite]{}; +/d2em/*[r]{\text{antiquewhite}};
++/d2em/*=<30pt,10pt>[F**:aqua]{}; +/d2em/*[r]{\text{aqua}};
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*+<1.5pt>[F**:white]++[F**:red]{\text{text with background}},
++!D+/d1pc/, *++[F**:black][white]{\bf{\text{bold white on black}}}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0) *+++[o]{ABC}="0" *\frm{.e};
+"0"+/ur5em/ *++{UR} **@{-},
+"0"+/r5em/ *++{R} **@{-},
+"0"+/dr5em/ *++{DR} **@{-},
+"0"+/d5em/ *++{D} **@{-},
+"0"+/dl5em/ *++{DL} **@{-},
+"0"+/l5em/ *++{L} **@{-},
+"0"+/ul5em/ *++{UL} **@{-},
+"0"+/u5em/ *++{U} **@{-},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)  *++={A} *\frm{o};
+(10,7) *++={B} *\frm{o} **\frm{.}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)  *+++{A} ;
+(10,7) *+++{B} **\frm{.}
+**\frm{^\}} ; **\frm{_\}} 
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*+++{\text{\\frm\{\_\}\}}} *\frm{_\}} *\frm{.}="0"
++/d4em/*+++{\text{\\frm\{\_)\}}} *\frm{_)} *\frm{.},
+
+"0"+/r8em/*+++{\text{\\frm\{$\verb!^!$\}\}}} *\frm{^\}} *\frm{.},
++/d4em/*+++{\text{\\frm\{$\verb!^!$)\}}} *\frm{^)} *\frm{.},
+
+"0"+/r16em/*+++{\text{\\frm\{\{\}}} *\frm{\{} *\frm{.},
++/d4em/*+++{\text{\\frm\{(\}}} *\frm{(} *\frm{.},
+
+"0"+/r24em/*+++{\text{\\frm\{\}\}}} *\frm{\}} *\frm{.},
++/d4em/*+++{\text{\\frm\{)\}}} *\frm{)} *\frm{.},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*++{\text{\\frm\{\}}} *\frm{}="0",
++/d4em/*++{\text{\\frm\{-\}}} *\frm{-} *\frm{.},
++/d4em/*++{\text{\\frm\{=\}}} *\frm{=} *\frm{.},
++/d4em/*++{\text{\\frm\{--\}}} *\frm{--} *\frm{.},
++/d4em/*++{\text{\\frm\{,\}}} *\frm{,} *\frm{.},
++/d4em/*++{\text{\\frm\{o\}}} *\frm{o} *\frm{.},
++/d4em/*++{\text{\\frm\{oo\}}} *\frm{oo} *\frm{.},
++/d4em/*++{\text{\\frm\{e\}}} *\frm{e} *\frm{.},
++/d4em/*++{\text{\\frm\{ee\}}} *\frm{ee} *\frm{.},
++/d4em/*++[]{\text{\\frm\{*\}}} *\frm{*},
++/d2.2em/*++[]{\text{\\frm\{*\}}},
++/d3em/*++[o]{\text{\\frm\{*\}}} *\frm{*},
++/d2.2em/*++[o]{\text{\\frm\{*\}}},
+
+"0"+/r10em/*++{\text{\\frm\{.\}}} *\frm{.},
++/d4em/*++{\text{\\frm<8pt>\{-\}}} *\frm<8pt>{-} *\frm{.},
++/d4em/*++{\text{\\frm<8pt>\{=\}}} *\frm<8pt>{=} *\frm{.},
++/d4em/*++{\text{\\frm\{o-\}}} *\frm{o-} *\frm{.},
++/d4em/*++{\text{\\frm<3pt>\{,\}}} *\frm<3pt>{,} *\frm{.},
++/d4em/*++{\text{\\frm<8pt>\{o\}}} *\frm<8pt>{o} *\frm{.},
++/d4em/*++{\text{\\frm<8pt>\{oo\}}} *\frm<8pt>{oo} *\frm{.},
++/d4em/*++{\text{\\frm<20pt,8pt>\{e\}}} *\frm<20pt,8pt>{e} *\frm{.},
++/d4em/*++{\text{\\frm<20pt,8pt>\{ee\}}} *\frm<20pt,8pt>{ee} *\frm{.},
++/d4em/*++[]{\text{\\frm\{**\}}} *\frm{**},
++/d2.2em/*++[]{\text{\\frm\{**\}}},
++/d3em/*++[o]{\text{\\frm\{**\}}} *\frm{**},
++/d2.2em/*++[o]{\text{\\frm\{**\}}},
+
+"0"+/r20em/*++{\text{\\frm<20pt>\{.\}}} *\frm<20pt>{.},
++/d4em/*++{\text{\\frm<20pt>\{-\}}} *\frm<20pt>{-} *\frm{.},
++/d4em/*++{\text{\\frm<20pt>\{=\}}} *\frm<20pt>{=} *\frm{.},
++/d4em/*++{\text{\\frm<20pt>\{--\}}} *\frm<20pt>{--} *\frm{.},
++/d4em/*++{\text{\\frm\{-,\}}} *\frm{-,} *\frm{.},
++/d4em/*++{\text{\\frm\{.o\}}} *\frm{.o} *\frm{.},
++/d4em/*++{\text{\\frm\{-o\}}} *\frm{-o} *\frm{.},
++/d4em/*++{\text{\\frm\{.e\}}} *\frm{.e} *\frm{.},
++/d4em/*++{\text{\\frm\{-e\}}} *\frm{-e} *\frm{.},
++/d4em/*++[]{\text{\\frm<6pt>\{*\}}} *\frm{.} *\frm<6pt>{*},
++/d2.2em/*++[]{\text{\\frm<6pt>\{*\}}},
++/d3em/*++[o]{\text{\\frm<6pt>\{*\}}} *\frm{.e} *\frm<6pt>{*},
++/d2.2em/*++[o]{\text{\\frm<6pt>\{*\}}},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*[o]{p}; p+<2cm, -1cm>*{c} **@{--}
+*!/-1cm/^@{-}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*[o]{p}; p+<2cm, -1cm>*{c} **@{--}
+*!/-1cm/{2}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*{+}; p+<2cm,1cm>*{+} **{} ?(1)*@{-} *!/-5pt/^@{-} *^@{-} *!/^-5pt/@{-}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<3pc,0pc>:(0,0),
+(1,0) *+{0} *\cir<.6pc>{}="0",
+(2,0) *+{1} *\cir<.6pc>{}="1",
+(3,0) *+{2} *\cir<.6pc>{}="2",
+(4,0) *+{3} *\cir<.45pc>{}*\cir<.6pc>{}="3",
+
+0*+{start}="start"
+\PATH ~={**@{-}} ~+{|>*@{>}}
+'"0"
+'"1" _a
+'"2" ^b
+"3" ^b
+
+\POS "3"
+\PATH ~={**@{-}} ~>{|>*@{>}}
+`ru^l "0" <-1pt>
+`^rd "0" _b
+"0"
+
+\POS "3"
+\PATH ~={**@{-}} ~>{|>*@{>}}
+`rd_l "1" <1pt>
+`_ru "1"
+"1"
+
+\POS "2"
+\PATH ~={**@{-}} ~>{|>*@{>}}
+`rd_l "1" <1pt>
+`_ru "1" _a
+"1"
+
+\POS "0"+/ru 1.2pc/*{\scriptstyle b}, "0"
+\PATH ~={**@{-}}
+`r^d/.7pc "0" <1pt>
+"0" |>*@{>}
+
+\POS "1"+/rd 1.2pc/*{\scriptstyle a}, "1"
+\PATH ~={**@{-}}
+`r_u/.7pc "1" <-1pt>
+"1" |>*u@{>}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<4pc,0pc>:(0,0)
+*+{O}="O"
+\PATH ~={**@{-} ?>*@{>}}
+~+{|*@{|}}
+`r^d (-1,-1)*+{A}="A"
+"A"
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<4pc,0pc>:(0,0)
+*+\txt{base}="base"
+\PATH ~={**@{-} ?>*@{>}}
+`l    (-1,-1)*{A} ^a
+`     (1,-1) *{B} ^b
+`_ul  (1,0)  *{C} ^c
+`ul^l "base"      ^d
+"base"            ^e
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*+{A} *\cir<10pt>{}="me"
+\PATH
+~={**@{-}}
+`ul^ur/12pt, "me" <3pt>
+"me" |>*v(1,1)@{>}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0.3pc,0pc>:(0,0)
+*+{0}*\cir{} \PATH
+~={**@{-}}
+~/{**@{~}}
+~<{|<*@{<}}
+~>{|>*@{>}}
+~+{|-*@{|}}
+'(10,1)*+{1}*\cir{} ^{A}="A" '(20,-2)*+{2}*\cir{} (30,0)*+{3}*\cir{}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\xyshowAST{
+*+{0} \PATH
+~={**@{-}}
+~{~{(30,0)*+{3}} '(20,-2)*+{2}} '(10,1)*+{1} 
+}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+@={(10,10), (20,0), (40,15)},
+(0,0);(50,-10)**\crv{~@}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*{A} \save\afterPOS{\POS **{} ?>*@{>} **@{-} \restore};p+<10mm,2mm>
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<4em,1em>="p"*{+},
+<0em,0em>="c"*+<2pc,2pc>{+} *\cir{}="C",
+"p";"c"**@{},
+?>(2);"p"**@{.},
+"p";"c"**@{},
+"C"!P*{\times}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<4em,2em>="p"*{+},
+<0em,0em>="c"*+<3pc,2pc>{+}="C",
+"p";"c"**@{},
+?>(2);"p"**@{.},
+"p";"c"**@{},
+"C"!P*={\times}="P",
+"p";"P"**@{.}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0 *={\times} *{OOO} !R -L *{\otimes},
+<0em,-2em> *={\times} *{OOO} !R *{\otimes}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0*{A}="A",
+"A"+/ru 2em/*{B}="B",
+"A"."B"*\cir{},
+"A";"B"**@{-}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0;<1em,0em>:
+(0,0);p+/v a(18) 3em/**@{.} ?>*@{>},
+(0,-1.5);p+/v a(18) 3em/**@{.} ?>*@{<},
+(0,-3);p+/v a(18) 3em/**@{.} ?>*@{|},
+(0,-4.5);p+/v a(18) 3em/**@{.} ?>*@{(},
+(0,-6);p+/v a(18) 3em/**@{.} ?>*@{)},
+
+(5,0);p+/v a(18) 3em/**@{.} ?>*@^{>},
+(5,-1.5);p+/v a(18) 3em/**@{.} ?>*@^{<},
+(5,-3);p+/v a(18) 3em/**@{.} ?>*@^{|},
+(5,-4.5);p+/v a(18) 3em/**@{.} ?>*@^{(},
+(5,-6);p+/v a(18) 3em/**@{.} ?>*@^{)},
+(5,-7.5);p+/v a(18) 3em/**@{.} ?>*@^{`},
+(5,-9);p+/v a(18) 3em/**@{.} ?>*@^{'},
+
+(10,0);p+/v a(18) 3em/**@{.} ?>*@_{>},
+(10,-1.5);p+/v a(18) 3em/**@{.} ?>*@_{<},
+(10,-3);p+/v a(18) 3em/**@{.} ?>*@_{|},
+(10,-4.5);p+/v a(18) 3em/**@{.} ?>*@_{(},
+(10,-6);p+/v a(18) 3em/**@{.} ?>*@_{)},
+(10,-7.5);p+/v a(18) 3em/**@{.} ?>*@_{`},
+(10,-9);p+/v a(18) 3em/**@{.} ?>*@_{'},
+
+(15,0);p+/v a(18) 3em/**@2{} ?>*@2{>} **@2{.},
+(15,-1.5);p+/v a(18) 3em/**@2{} ?>*@2{<} **@2{.},
+(15,-3);p+/v a(18) 3em/**@2{.} ?>*@2{|},
+
+(20,0);p+/v a(18) 3em/**@3{} ?>*@3{>} **@3{.},,
+(20,-1.5);p+/v a(18) 3em/**@3{} ?>*@3{<} **@3{.},,
+(20,-3);p+/v a(18) 3em/**@3{.} ?>*@3{|},
+
+(0,-13);p+/v a(18) 3em/**@{.} ?>*@{>>},
+(0,-14.5);p+/v a(18) 3em/**@{.} ?>*@{<<},
+(0,-16);p+/v a(18) 3em/**@{.} ?>*@{||},
+(0,-17.5);p+/v a(18) 3em/**@{.} ?>*@{|-},
+(0,-19);p+/v a(18) 3em/**@{.} ?>*@{>|},
+(0,-20.5);p+/v a(18) 3em/**@{.} ?>*@{+},
+
+(5,-13);p+/v a(18) 3em/**@{.} ?>*@^{>>},
+(5,-14.5);p+/v a(18) 3em/**@{.} ?>*@^{<<},
+(5,-16);p+/v a(18) 3em/**@{.} ?>*@^{||},
+(5,-17.5);p+/v a(18) 3em/**@{.} ?>*@^{|-},
+(5,-19);p+/v a(18) 3em/**@{.} ?>*@{>>|},
+(5,-20.5);p+/v a(18) 3em/**@{.} ?>*@{x},
+
+(10,-13);p+/v a(18) 3em/**@{.} ?>*@_{>>},
+(10,-14.5);p+/v a(18) 3em/**@{.} ?>*@_{<<},
+(10,-16);p+/v a(18) 3em/**@{.} ?>*@_{||},
+(10,-17.5);p+/v a(18) 3em/**@{.} ?>*@_{|-},
+(10,-19);p+/v a(18) 3em/**@{.} ?>*@{|<},
+(10,-20.5);p+/v a(18) 3em/**@{.} ?>*@{/},
+
+(15,-13);p+/v a(18) 3em/**@2{} ?>*@2{>>} **@2{.},
+(15,-14.5);p+/v a(18) 3em/**@2{} ?>*@2{<<} **@2{.},
+(15,-16);p+/v a(18) 3em/**@2{.} ?>*@2{||},
+(15,-17.5);p+/v a(18) 3em/**@2{.} ?>*@2{|-},
+(15,-19);p+/v a(18) 3em/**@{.} ?>*@{|<<},
+(15,-20.5);p+/v a(18) 3em/**@{.} ?>*@{//},
+
+(20,-13);p+/v a(18) 3em/**@3{} ?>*@3{>>} **@3{.},
+(20,-14.5);p+/v a(18) 3em/**@3{} ?>*@3{<<} **@3{.},
+(20,-16);p+/v a(18) 3em/**@3{.} ?>*@3{||},
+(20,-17.5);p+/v a(18) 3em/**@3{.} ?>*@3{|-},
+(20,-19);p+/v a(18) 3em/**@{.} ?>*@{*},
+(20,-20.5);p+/v a(18) 3em/**@{.} ?>*@{o},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*{ABC}="ob",
+<3em,2em>+"ob" *\cir{}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+@={(0,-10), (10,3), (20,-5)}
+@(,
+  @+(0,-20),
+  @+(15,3),
+  @@{*{\otimes}},
+  s0="prev" @@{;"prev";**@{-}="prev"}
+@),
+s0="prev" @@{;"prev";**@{-}="prev"}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+@={(0,-10), (10,3), (20,-5)} @@{*{P}},
+=@"stack",
+@i,
+@="stack",
+s0="prev" @@{;"prev";**@{-}="prev"}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0*={\times},
+<1cm,.5cm>;<2cm,1.5cm>:<1cm,1cm>::
+(0,0)*{o},
+(0,0);(1,0) **@{-} ?>*@{>},
+(0,0);(0,1) **@{-} ?>*@{>},
+(0,0);(1,1) **@{.} ?>*@{>},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0;<1em,0em>:
+(0,0)*\cir<0.5em>{},
+(0,-2)*\cir<0.5em>{l^l},
++/r2em/*\cir<0.5em>{l^r},
++/r2em/*\cir<0.5em>{l^d},
++/r2em/*\cir<0.5em>{l^u},
++/r2em/*\cir<0.5em>{l^dl},
++/r2em/*\cir<0.5em>{l^dr},
++/r2em/*\cir<0.5em>{l^ul},
++/r2em/*\cir<0.5em>{l^ur},
+(0,-4)*\cir<0.5em>{l_l},
++/r2em/*\cir<0.5em>{l_r},
++/r2em/*\cir<0.5em>{l_d},
++/r2em/*\cir<0.5em>{l_u},
++/r2em/*\cir<0.5em>{l_dl},
++/r2em/*\cir<0.5em>{l_dr},
++/r2em/*\cir<0.5em>{l_ul},
++/r2em/*\cir<0.5em>{l_ur},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*[o]{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p-<.5pc,2pc>*{C}="C",
+p+<6pc,-.5pc>*{D}="D",
+"A";"B"**\crv{<4pc,-2pc>} ?>*@{>},
+?!{"C";"D"**@{-}}="E"*{\times},
+"E"+/_2pc/="F";"E"**@{-},
+?!{"C";"D"}*{\otimes}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p-<.5pc,2pc>*{C}="C",
+p+<6pc,-.5pc>*{D}="D",
+"A";"B"**\crv{<4pc,-1pc>} ?>*@{>},
+?!{"C";"D"**\crv{<1pc,-0.5pc>}}="E"*{\times},
+"E"+/_3pc/="F";"E"**@{},
+?!{"C";"D"**\crv{~**@{} <1pc,-0.5pc>}}="G"*{\times},
+"E";"G"**@{.}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0;<1em,0em>:
+(0,0)*+[o]{x}="x", (8,0)*+{f(x)}="fx",
+"x";"fx" **\crv{(4,2)} ?>*@{>} ?<>*!/_.5em/{\scriptstyle f}, 
+"x";"fx" **\crv{(4,-2)} ?<*@{<} ?<>*!/^.5em/{\scriptstyle f^{-1}}, 
+"x";"x" **\crv{(-3,3)&(-3,-3)} ?>*@{>} ?<>(.5)*!/^0.5em/{\scriptstyle id}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*={+}="+"; (6,3)*={\times}="*" **@{.},
+(3,0)*{A}; (6,6)*{B} **@{-}
+?!{"+";"*"} *{\oplus}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p+<1pc,3pc>*{C}="C",
+p+<4pc,-1pc>*{D}="D",
+"D";"C"**\crv{<3pc,2pc>} ?>*@{>},
+?!{"A";"B"**@{-}}*{\oplus}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p+<1pc,3pc>*{C}="C",
+p+<4pc,-1pc>*{D}="D",
+"A";"B"**@{-},
+?!{"D";"C"**\crv{<3pc,2pc>} ?>*@{>}}*{\oplus}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p+<1pc,3pc>*{C}="C",
+p+<4pc,-1pc>*{D}="D",
+"A";"B"**\crv{<2pc,3pc>&<3pc,-2pc>},
+?!{"D";"C"**\crv{<3pc,2pc>} ?>*@{>}}*{\oplus}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p-<.5pc,2pc>*{C}="C",
+p+<6pc,-.5pc>*{D}="D",
+"A";"B"**\crv{<4pc,-2pc>} ?>*@{>},
+?!{"C";"D"**@{-}}="E"*{\times},
++/_2pc/="F";"E"**@{.},
+?!{"C";"D"}*{\otimes}
+\end{xy}
+
+\begin{xy}
+(0,0)*{A}="A";
+p+/r5pc/+/u3pc/*{B}="B",
+p-<.5pc,2pc>*{C}="C",
+p+<6pc,-.5pc>*{D}="D",
+"A";"B"**\crv{<6pc,-5pc>} ?>*@{>},
+?!{"C";"D"**@{-}}*{\otimes}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+(0,0)*{}ABC}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0em,20mm>*{ABC}="A";<60mm,0em>*{XYZ}="B" ** {\heartsuit},
+<10mm,-20mm>*{あいう}="C";"A" ** @3{>},
+"B";"C" **\crv{~*{.} ~**@{|} <60mm,-20mm>}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0;<1em,0em>:
+(8, 5) * {ABC} = "A",
+(3, 10) * {X \otimes Y}="B",
+<60mm, 55mm> *[o] {\displaystyle \int_0^\infty e^{-x^2/2} dx}*\frm{.e}="C",
+"A";"B" ** \dir{-} ?<>/-1mm/ *\dir{>} ?<>/1mm/ *@{>},
+"B";"C" ** @{} ?<*@3{<}; ?>*@3{>} **@3{-} ?(0.5)*!/rd 3mm/{\scriptstyle \eta} ?(0.5)*!/^ 3.5mm/{\scriptstyle \phi} ?<>,
+"C";"A" ** @{-} ?>*\dir{>} ?< *\dir{|},
+"C";"A", x="X",
+"A";"B", y="Y",
+"X";"Y" **@3{~} ?<*!/_ 3mm/{x} ?>*!/_ 3mm/{y}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0em,0em>="A";<10cm,0em>="B",
+"A";"B" **\crv{<2cm,2cm>&<2cm,-3cm>&<5cm,1cm>&<7cm,0em>} ?>*@{|} ?>/-1cm/*@{|} ?>/-2cm/*@{|} ?>/-3cm/*@{|} ?>/-4cm/*@{|} ?>/-5cm/*@{|} ?>/-6cm/*@{|} ?>/-7cm/*@{|} ?>/-8cm/*@{|} ?>/-9cm/*@{|} ?>/-10cm/*@{|}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0em,20mm>*{A}="A";<60mm,0em>*{B}="B",
+**\crv{<10mm,20mm>&<30mm,20mm>&<50mm,-20mm>&<60mm,-10mm>}
+?<*\dir{<} ?>*\dir{>}
+?(.6)*{\oplus} *!LD!/^-5pt/{x}
+?(.6)/12pt/*{\oplus} *!LD!/^-5pt/{x'}
+?(.35)*{\otimes}-/25pt/*{Q}="q"
++/50pt/*{P};"q" **\dir{-}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0cm,2cm>*+[o]{ABC}*\frm{e}="A";<6cm,0cm>*+{DEF}="B"*\frm{-},
+"A";"B" **\crv{~**@{-}} ?>/-7mm/*@{|} ?<>*@{|} ?>*@{>},
+"A";"B" **\crv{~**@{-} <3cm,3cm>} ?>/-7mm/*@{|} ?<>*@{|} ?>*@{>},
+"A";"B" **\crv{~**@{-} <2cm,4cm>&<4cm,4cm>} ?>/-7mm/*@{|} ?<>*@{|} ?>*@{>},
+"A";"B" **\crv{~**@{-} <1cm,2cm>&<3cm,2cm>&<5cm,-2cm>&<6cm,-1cm>} ?>/-7mm/*@{|} ?<>*@{|} ?>*@{>}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0cm,2cm>*{A}="A";<6cm,0cm>*{B}="B"
+**\crv{~**@3{.} <10cm,3cm>&<-4cm,4cm>}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0cm,0cm>*{A}="A";<-1cm,5cm>*{B}="B"
+**\crv{<1cm,1cm>&<0cm,2cm>&<1.5cm,4cm>}
+**\crv{<-2cm,1cm>&<-1.5cm,4cm>},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+0;<1em,0em>:
+(1,1);p+/v a(18) 5.5em/**@{-},
+(1,3);p+/v a(18) 5.5em/**@2{-},
+(1,5);p+/v a(18) 5.5em/**@3{-},
+(1,7);p+/v a(18) 5.5em/**@{=},
+
+(1,9);p+/v a(18) 5.5em/**@{.},
+(1,11);p+/v a(18) 5.5em/**@2{.},
+(1,13);p+/v a(18) 5.5em/**@3{..},
+(1,15);p+/v a(18) 5.5em/**@{::},
+
+(8,1);p+/v a(18) 5.5em/**@{--},
+(8,3);p+/v a(18) 5.5em/**@2{--},
+(8,5);p+/v a(18) 5.5em/**@3{--},
+(8,7);p+/v a(18) 5.5em/**@{==},
+
+(8,9);p+/v a(18) 5.5em/**@{~},
+(8,11);p+/v a(18) 5.5em/**@2{~},
+(8,13);p+/v a(18) 5.5em/**@3{~},
+
+(15,1);p+/v a(18) 5.5em/**@{~~},
+(15,3);p+/v a(18) 5.5em/**@2{~~},
+(15,5);p+/v a(18) 5.5em/**@3{~~},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+<0em,0em>*+<6em>{}="1",
+"1"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul" *!/dr 1em/{\scriptstyle 1},
+"1"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl" *!/ur 1em/{\scriptstyle 1'},
+"1"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr" *!/ul 1em/{\scriptstyle 2'},
+"1"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur" *!/dl 1em/{\scriptstyle 2},
+"ul";"ur" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"ul";"dl" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ur";"dr" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+
+<9em,0em>*+<6em>{}="2",
+"2"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"2"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"2"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"2"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"ul";"dl" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ur";"ul" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"dr";"ur" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+"ul";"dr" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{3},
+
+<18em,0em>*+<6em>{}="3",
+"3"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"3"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"3"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"3"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"dl";"ul" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ul";"ur" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"ur";"dr" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{2},
+"ur";"dl" **@{-} ?>*@{>} ?<>(.75)*!/_.5em/{3},
+"dr";"ul" **@{-} ?>*@{>} ?<>(.75)*!/^.5em/{3},
+
+<18em,-9em>*+<6em>{}="4",
+"4"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"4"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"4"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"4"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"ul";"dl" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{6},
+"ul";"dr" **@{-} ?>*@{>} ?<>(.75)*!/^.5em/{3},
+"ur";"ul" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"dl";"ur" **@{-} ?>*@{>} ?<>(.75)*!/^.5em/{3},
+"dr";"ur" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{2},
+
+<18em,-18em>*+<6em>{}="5",
+"5"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"5"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"5"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"5"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"dl";"ul" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{6},
+"ul";"ur" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"ur";"dr" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+"dr";"ul" **@{-} ?>*@{>} ?<>(.75)*!/^.5em/{3},
+"ur";"dl" **@{-} ?>*@{>} ?<>(.75)*!/_.5em/{3},
+
+<9em,-18em>*+<6em>{}="6",
+"6"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"6"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"6"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"6"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"ul";"dl" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ur";"ul" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"dl";"ur" **@{-} ?>*@{>} ?<>(.5)*!/^.5em/{3},
+"dr";"ur" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+
+<0em,-18em>*+<6em>{}="7",
+"7"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"7"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"7"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"7"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"dl";"ul" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ul";"ur" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"dr";"ur" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+
+<0em,-9em>*+<6em>{}="8",
+"8"+/ul 2.5em/ *+<.5em>{3} *\cir{}="ul",
+"8"+/dl 2.5em/ *+<.5em>{3} *\cir{}="dl",
+"8"+/dr 2.5em/ *+<.5em>{1} *\cir{}="dr",
+"8"+/ur 2.5em/ *+<.5em>{1} *\cir{}="ur",
+"dl";"ul" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{3},
+"ur";"ul" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{3},
+"ur";"dr" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+
+"1";"2" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{2},
+"2";"3" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{1},
+"3";"4" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{2},
+"4";"5" **@{-} ?>*@{>} ?<>(.5)*!/l.5em/{1},
+"5";"6" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{2},
+"6";"7" **@{-} ?>*@{>} ?<>(.5)*!/d.5em/{1},
+"1";"8" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{1},
+"8";"7" **@{-} ?>*@{>} ?<>(.5)*!/r.5em/{2},
+\end{xy}
+\]
+
+\[
+\begin{xy}
+*={\bullet} \PATH
+~={**@{-}}
+~>{|>*@{>}}
+~+{|*@{/}}
+'(10,1)*={\bullet} <3pt> '(20,-2)*={\bullet} (30,0)*={\bullet}
+\end{xy}
+\]
+
+\[
+\begin{xy}
+\end{xy}
+\]
+
+<!--
+-->
+
+</p>
+<hr>
+</blockquote>
+
+</body>
+</html>
