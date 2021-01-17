@@ -20,9 +20,10 @@ import {XypicUtil} from "../util/XypicUtil.js";
 import {List} from "../fp/List.js";
 import {Frame} from "./Frames.js";
 
-
 const SVGNS = 'http://www.w3.org/2000/svg';
 const XLINKNS = 'http://www.w3.org/1999/xlink';
+
+const round2 = XypicUtil.round2;
 
 
 export class Graphics {
@@ -211,7 +212,7 @@ class Rotate {
 	}
 
 	toTranslateForm() {
-		return "rotate(" + (-180 * this.radian / Math.PI) + ") ";
+		return "rotate(" + round2(-180 * this.radian / Math.PI) + ") ";
 	}
 }
 

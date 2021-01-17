@@ -58,5 +58,9 @@ export const XypicUtil = {
 		}
 		memo.reset = reset;
 		reset();
+	},
+
+	round2: function (x) {
+		return Math.round(x * 100) / 100;
 	}
 }

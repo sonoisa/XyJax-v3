@@ -28,10 +28,13 @@ import {Graphics} from "./Graphics.js";
 import {DrawingContext} from "./DrawingContext.js";
 import {Env} from "./Curves.js";
 import {augment} from "./AugmentXyNodes.js";
+import {XypicUtil} from "../util/XypicUtil.js";
 
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const XLINKNS = 'http://www.w3.org/1999/xlink';
+
+const round2 = XypicUtil.round2;
 
 augment(Shape.TextShape, {
 	_draw: function (svg, test) {
@@ -54,7 +57,7 @@ augment(Shape.TextShape, {
 
 		if (!test) {
 			const thisRoot = thisWrapper.html("mjx-xypic-object");
-			adaptor.append(parent.chtml, thisRoot);
+			adaptor.append(parent.getElement(), thisRoot);
 
 			// TODO define CSS
 			adaptor.setStyle(thisRoot, "text-align", "center");
@@ -68,7 +71,7 @@ augment(Shape.TextShape, {
 			thisRoot.setAttribute("data-xypic-id", this.math.xypicTextObjectId);
 			parent.appendTextObject(thisRoot);
 
-			// for DEBUG
+			// for DEBUGGING
 			// svg.createSVGElement("rect", {
 			// 	x: MathJax.xypic.measure.em2px(c.x - halfW),
 			// 	y: -MathJax.xypic.measure.em2px(c.y - (H - D) / 2),
@@ -90,7 +93,7 @@ augment(Shape.TextShape, {
 });
 
 
-export class AbstractCHTMLxypic extends CHTMLWrapper {
+class AbstractCHTMLxypic extends CHTMLWrapper {
 	constructor(factory, node, parent=null) {
 		super(factory, node, parent);
 
@@ -105,6 +108,10 @@ export class AbstractCHTMLxypic extends CHTMLWrapper {
 
 		// このxypicノードが内包するTextObjectのDOM
 		this._textObjects = [];
+	}
+
+	getElement() {
+		return this.chtml;
 	}
 
 	appendTextObject(textObject) {
@@ -140,16 +147,17 @@ export class AbstractCHTMLxypic extends CHTMLWrapper {
 	}
 
 	setupMeasure(wrapper) {
+		const round2 = XypicUtil.round2;
 		const oneem = wrapper.length2em("1em");
 		const em = parseFloat(wrapper.px(100).replace("px", "")) / 100;
 		const axis_height = wrapper.font.params.axis_height;
 		const thickness = wrapper.length2em("0.15em");
-		const em2px = function (n) { return parseFloat(wrapper.px(n * 100).replace("px", "")) / 100; };
+		const em2px = function (n) { return Math.round(parseFloat(wrapper.px(n * 100).replace("px", ""))) / 100; };
 
 		MathJax.xypic.measure = {
-			length2em: function (len) { return wrapper.length2em(len); },
+			length2em: function (len) { return round2(wrapper.length2em(len)); },
 			oneem: oneem,
-			em2length: function (len) { return (len / oneem) + "em"; },
+			em2length: function (len) { return round2(len / oneem) + "em"; },
 			Em: function (x) { return wrapper.em(x); },
 			em: em,
 			em2px: em2px,
@@ -264,13 +272,13 @@ export class CHTMLxypic extends AbstractCHTMLxypic {
 						em2px(xOffsetEm), em2px(yOffsetEm), 
 						em2px(svgWidth), em2px(svgHeight)
 					].join(" "));
-				adaptor.setStyle(chtml, "vertical-align", (- box.d - p + MathJax.xypic.measure.axis_height) + "em");
+				adaptor.setStyle(chtml, "vertical-align", round2(- box.d - p + MathJax.xypic.measure.axis_height) + "em");
 
 				for (let to of this._textObjects) {
 					const tx = parseFloat(to.getAttribute("data-x"));
 					const ty = parseFloat(to.getAttribute("data-y"));
-					adaptor.setStyle(to, "left", "" + (tx - xOffsetEm) + "em");
-					adaptor.setStyle(to, "top", "" + (ty - yOffsetEm) + "em");
+					adaptor.setStyle(to, "left", "" + round2(tx - xOffsetEm) + "em");
+					adaptor.setStyle(to, "top", "" + round2(ty - yOffsetEm) + "em");
 				}
 			} else {
 				// there is no contents
@@ -340,8 +348,8 @@ export class CHTMLincludegraphics extends AbstractCHTMLxypic {
 
 		const img = this.html("img");
 		img.setAttribute("src", this.filepath);
-		this.adaptor.setStyle(img, "width", this.imageWidth + "em");
-		this.adaptor.setStyle(img, "height", this.imageHeight + "em");
+		this.adaptor.setStyle(img, "width", round2(this.imageWidth) + "em");
+		this.adaptor.setStyle(img, "height", round2(this.imageHeight) + "em");
 		this.adaptor.append(chtml, img);
 	}
 }

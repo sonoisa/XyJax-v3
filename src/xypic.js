@@ -16,7 +16,7 @@
  */
 
 
-// for DEBUG
+// for DEBUGGING
 // import {} from "./util/EnableSourceMap.js";
 
 import {MathJax, combineWithMathJax, combineConfig} from "../mathjax/js/components/global.js";
@@ -117,8 +117,15 @@ const XypicEnvironmentMap = new EnvironmentMap("xypic-environment", ParseMethods
 function registerNodeClassOnlyOnce(kind, mmlClass, wrapperClass, mmlFactory) {
 	if (mmlFactory.getNodeClass(kind) === undefined) {
 		mmlFactory.setNodeClass(kind, mmlClass);
-		const wrapperFactory = MathJax.startup.output.factory;
-		wrapperFactory.setNodeClass(kind, wrapperClass);
+	}
+
+	const wrapperFactory = MathJax.startup.output.factory;
+	if (wrapperFactory.getNodeClass(kind) === undefined) {
+		switch (MathJax.startup.output.name) {
+			case "CHTML":
+				wrapperFactory.setNodeClass(kind, wrapperClass);
+				break;
+		}
 	}
 }
 

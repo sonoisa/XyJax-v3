@@ -71,7 +71,7 @@ $ npm run build
 ```
 
 
-### Hot to build MathJax and xypic.js for debug
+### Hot to build MathJax and xypic.js for debugging
 ```
 $ git clone https://github.com/sonoisa/XyJax-v3 XyJax-v3
 $ cd XyJax-v3
