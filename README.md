@@ -11,10 +11,10 @@ XyJax is an almost Xy-pic compatible extension for **MathJax version 3**.
 
 This extension enables you to draw various graphs and diagrams.
 
-See http://sonoisa.github.io/xyjax-v3/xyjax-v3.html for more details. And origins
+See https://sonoisa.github.io/xyjax-v3/xyjax-v3.html for more details. And origins
 
-- MathJax: http://www.mathjax.org/
-- Xy-pic: http://www.tug.org/applications/Xy-pic/
+- MathJax: https://www.mathjax.org/
+- Xy-pic: https://www.tug.org/applications/Xy-pic/
 
 This software is under development.
 
