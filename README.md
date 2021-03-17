@@ -85,7 +85,7 @@ $ npm run build
 
 ## For server-side rendering via node.js
 
-Copy `xypic.js` to your npm project, and create a `mathjax.js` in the same directory containing:
+Copy `build/xypic.js` to your npm project, and create a `mathjax.js` in the same directory containing:
 
 ```js
 import { readFileSync, writeFileSync } from 'fs';
@@ -105,7 +105,6 @@ mathjax
     },
     tex: {
       packages: { '[+]': ['xypic'] },
-      inlineMath: [['$', '$']],
     },
     chtml: {
       fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2',
@@ -132,4 +131,4 @@ mathjax
   .catch((err) => console.log(err));
 ```
 
-Now run `node -r esm mathjax.js -- index.html` to replace your HTML file with a version with all the math pre-rendered.
+Run `npm install mathjax-full yargs` in your node project, and finally run `node -r esm mathjax.js index.html` to replace your HTML file with a version with all the math pre-rendered.
