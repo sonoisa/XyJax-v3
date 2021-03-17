@@ -16,9 +16,9 @@
  */
 
 
-import {XypicUtil} from "../util/XypicUtil.js";
-import {List} from "../fp/List.js";
-import {Frame} from "./Frames.js";
+import { XypicUtil } from "../util/XypicUtil.js";
+import { List } from "../fp/List.js";
+import { Frame } from "./Frames.js";
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const XLINKNS = 'http://www.w3.org/1999/xlink';
@@ -64,12 +64,12 @@ class SVG {
 				}
 			}
 		}
-		this.drawArea.appendChild(obj);
+		this.appendChild(obj);
 		return obj;
 	}
 
 	appendChild(svgElement) {
-		this.drawArea.appendChild(svgElement);
+		this.xypicWrapper.adaptor.append(this.drawArea, svgElement);
 		return svgElement;
 	}
 
@@ -101,8 +101,8 @@ class World extends SVG {
 		}
 
 		var def = {
-			fill: "none", 
-			stroke: color, 
+			fill: "none",
+			stroke: color,
 			"stroke-linecap": "round",
 			"stroke-width": MathJax.xypic.measure.em2px(strokeWidth)
 		}
@@ -138,7 +138,7 @@ class World extends SVG {
 	}
 
 	getOrigin() {
-		return { x:0, y:0 };
+		return { x: 0, y: 0 };
 	}
 
 	getCurrentColor() {
@@ -177,7 +177,7 @@ class Transform {
 	}
 
 	apply(x, y) {
-		var o = { x:x, y:y };
+		var o = { x: x, y: y };
 		this.transform.foreach(function (tr) { o = tr.apply(o.x, o.y) });
 		return o;
 	}
@@ -191,7 +191,7 @@ class Translate {
 	}
 
 	apply(x, y) {
-		return { x:x - this.dx, y:y + this.dy };
+		return { x: x - this.dx, y: y + this.dy };
 	}
 
 	toTranslateForm() {
@@ -208,7 +208,7 @@ class Rotate {
 	apply(x, y) {
 		var c = Math.cos(this.radian);
 		var s = Math.sin(this.radian);
-		return { x:c * x + s * y, y:-s * x + c * y };
+		return { x: c * x + s * y, y: -s * x + c * y };
 	}
 
 	toTranslateForm() {
@@ -222,8 +222,8 @@ class Group extends SVG {
 		super(parent.xypicWrapper);
 
 		this.parent = parent;
-		this.drawArea = parent.createSVGElement("g", 
-			transform === undefined? {} : { transform: transform.toString() });
+		this.drawArea = parent.createSVGElement("g",
+			transform === undefined ? {} : { transform: transform.toString() });
 		var parentOrigin = parent.getOrigin();
 		if (transform === undefined) {
 			this.origin = parentOrigin;

@@ -66,9 +66,9 @@ augment(Shape.TextShape, {
 			thisWrapper.toCHTML(thisRoot);
 
 			const origin = svg.getOrigin();
-			thisRoot.setAttribute("data-x", (c.x - halfW - origin.x + p * scale));
-			thisRoot.setAttribute("data-y", (-c.y - halfHD - origin.y + p * scale));
-			thisRoot.setAttribute("data-xypic-id", this.math.xypicTextObjectId);
+			adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
+			adaptor.setAttribute(thisRoot, "data-y", (-c.y - halfHD - origin.y + p * scale));
+			adaptor.setAttribute(thisRoot, "data-xypic-id", this.math.xypicTextObjectId);
 			parent.appendTextObject(thisRoot);
 
 			// for DEBUGGING
@@ -275,8 +275,8 @@ export class CHTMLxypic extends AbstractCHTMLxypic {
 				adaptor.setStyle(chtml, "vertical-align", round2(- box.d - p + MathJax.xypic.measure.axis_height) + "em");
 
 				for (let to of this._textObjects) {
-					const tx = parseFloat(to.getAttribute("data-x"));
-					const ty = parseFloat(to.getAttribute("data-y"));
+					const tx = parseFloat(adaptor.getAttribute(to, "data-x"));
+					const ty = parseFloat(adaptor.getAttribute(to, "data-y"));
 					adaptor.setStyle(to, "left", "" + round2(tx - xOffsetEm) + "em");
 					adaptor.setStyle(to, "top", "" + round2(ty - yOffsetEm) + "em");
 				}
