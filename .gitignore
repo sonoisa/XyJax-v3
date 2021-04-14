@@ -104,5 +104,8 @@ dist
 .tern-port
 mathjax/
 
+# VSCode
+.devcontainer
 
-
+# Mac
+.DS_Store
