@@ -21,6 +21,7 @@
     "@babel/preset-env": "^7.11.0",
     "babel-loader": "^8.1.0",
     "source-map-support": "^0.5.19",
+    "ssri": ">=8.0.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
