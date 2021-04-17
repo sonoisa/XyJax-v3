@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-
+import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 import {XypicUtil} from "../util/XypicUtil.js";
 import {List} from "../fp/List.js";
 import {Frame} from "./Frames.js";
@@ -96,15 +96,15 @@ class World extends SVG {
 		}
 
 		if (svg.style) {
-			svg.style.width = MathJax.xypic.measure.Em(width);
-			svg.style.height = MathJax.xypic.measure.Em(height + depth);
+			svg.style.width = xypicGlobalContext.measure.Em(width);
+			svg.style.height = xypicGlobalContext.measure.Em(height + depth);
 		}
 
 		var def = {
 			fill: "none", 
 			stroke: color, 
 			"stroke-linecap": "round",
-			"stroke-width": MathJax.xypic.measure.em2px(strokeWidth)
+			"stroke-width": xypicGlobalContext.measure.em2px(strokeWidth)
 		}
 
 		this.drawArea = this.createElement("g");
@@ -122,11 +122,11 @@ class World extends SVG {
 	}
 
 	setHeight(height) {
-		this.xypicWrapper.setStyle(this.svg, "height", MathJax.xypic.measure.Em(height));
+		this.xypicWrapper.setStyle(this.svg, "height", xypicGlobalContext.measure.Em(height));
 	}
 
 	setWidth(width) {
-		this.xypicWrapper.setStyle(this.svg, "width", MathJax.xypic.measure.Em(width));
+		this.xypicWrapper.setStyle(this.svg, "width", xypicGlobalContext.measure.Em(width));
 	}
 
 	setAttribute(name, value) {
@@ -195,7 +195,7 @@ class Translate {
 	}
 
 	toTranslateForm() {
-		return "translate(" + MathJax.xypic.measure.em2px(this.dx) + "," + MathJax.xypic.measure.em2px(-this.dy) + ") ";
+		return "translate(" + xypicGlobalContext.measure.em2px(this.dx) + "," + xypicGlobalContext.measure.em2px(-this.dy) + ") ";
 	}
 }
 

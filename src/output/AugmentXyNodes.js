@@ -16,10 +16,10 @@
  */
 
 
-import {MathJax} from "../../mathjax/js/components/global.js";
 import TexError from "../../mathjax/js/input/tex/TexError.js";
 
 import {XypicConstants} from "../util/XypicConstants.js";
+import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 import {XypicUtil} from "../util/XypicUtil.js";
 import {List} from "../fp/List.js";
 import {Option} from "../fp/Option.js";
@@ -166,8 +166,8 @@ augment(AST.Pos.Place, {
 				}
 			}
 			
-			dimen = MathJax.xypic.measure.length2em(place.slide.dimen.getOrElse("0"));
-			var jot = MathJax.xypic.measure.jot;
+			dimen = xypicGlobalContext.measure.length2em(place.slide.dimen.getOrElse("0"));
+			var jot = xypicGlobalContext.measure.jot;
 			var slideEm = dimen + (jotP - jotC) * jot;
 			var t = env.lastCurve.tOfPlace(shouldShaveP, shouldShaveC, f, slideEm);
 			var pos = env.lastCurve.position(t);
@@ -508,7 +508,7 @@ augment(AST.ObjectBox, {
 		var env = context.env;
 		var origC = env.c;
 		var env = context.env;
-		var t = MathJax.xypic.measure.thickness;
+		var t = xypicGlobalContext.measure.thickness;
 		var s = env.p.edgePoint(env.c.x, env.c.y);
 		var e = env.c.edgePoint(env.p.x, env.p.y);
 		if (s.x !== e.x || s.y !== e.y) {
@@ -811,7 +811,7 @@ augment(AST.ObjectBox.Frame, {
 			return Shape.none;
 		}
 		
-		var t = MathJax.xypic.measure.thickness;
+		var t = xypicGlobalContext.measure.thickness;
 		var x = c.x;
 		var y = c.y;
 		var left = c.l;
@@ -824,10 +824,10 @@ augment(AST.ObjectBox.Frame, {
 				var dash = 3 * t;
 				if (convertToEllipse) {
 					var xy = this.radius.xy(context);
-					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				} else {
 					var radius = this.radius.radius(context);
-					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				}
 				break;
 				
@@ -835,17 +835,17 @@ augment(AST.ObjectBox.Frame, {
 				var dash = 3 * t;
 				if (convertToEllipse) {
 					var xy = this.radius.xy(context);
-					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, true, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, true, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				} else {
 					var radius = this.radius.radius(context);
-					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, true, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, true, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				}
 				break;
 				
 			case 'o-':
 				var dash = 3 * t;
-				var radius = MathJax.xypic.measure.lineElementLength;
-				shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+				var radius = xypicGlobalContext.measure.lineElementLength;
+				shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				break;
 				
 			case 'oo':
@@ -871,25 +871,25 @@ augment(AST.ObjectBox.Frame, {
 			case '.o':
 				var xy = this.radius.xy(context);
 				var r = xy.x;
-				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, r, r, false, color, MathJax.xypic.measure.dottedDasharray);
+				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, r, r, false, color, xypicGlobalContext.measure.dottedDasharray);
 				break;
 				
 			case '-o':
 				var dash = 3 * t;
 				var xy = this.radius.xy(context);
 				var r = xy.x;
-				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, r, r, false, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, r, r, false, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				break;
 				
 			case '.e':
 				var xy = this.radius.xy(context);
-				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, MathJax.xypic.measure.dottedDasharray);
+				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, xypicGlobalContext.measure.dottedDasharray);
 				break;
 				
 			case '-e':
 				var dash = 3 * t;
 				var xy = this.radius.xy(context);
-				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, MathJax.xypic.measure.em2px(dash) + " " + MathJax.xypic.measure.em2px(dash));
+				shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, xypicGlobalContext.measure.em2px(dash) + " " + xypicGlobalContext.measure.em2px(dash));
 				break;
 				
 			case '-':
@@ -915,10 +915,10 @@ augment(AST.ObjectBox.Frame, {
 			case '.':
 				if (convertToEllipse) {
 					var xy = this.radius.xy(context);
-					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, MathJax.xypic.measure.dottedDasharray);
+					shape = new Shape.EllipseShape(x + (right - left) / 2, y + (up - down) / 2, xy.x, xy.y, false, color, xypicGlobalContext.measure.dottedDasharray);
 				} else {
 					var radius = this.radius.radius(context);
-					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, MathJax.xypic.measure.dottedDasharray);
+					shape = new Shape.RectangleShape(x, y, left, right, up, down, radius, false, color, xypicGlobalContext.measure.dottedDasharray);
 				}
 				break;
 				
@@ -1037,7 +1037,7 @@ augment(AST.ObjectBox.Frame.Radius.Default, {
 		return 0;
 	},
 	depth: function (context) {
-		return MathJax.xypic.measure.thickness / 2;
+		return xypicGlobalContext.measure.thickness / 2;
 	},
 	xy: function (context) {
 		var c = context.env.c;
@@ -1056,7 +1056,7 @@ augment(AST.ObjectBox.Dir, {
 		}
 		env.c = new Frame.Point(c.x, c.y);
 		
-		var t = MathJax.xypic.measure.thickness;
+		var t = xypicGlobalContext.measure.thickness;
 		var shape = Shape.none;
 		switch (this.main) {
 			case "":
@@ -1186,7 +1186,7 @@ augment(AST.ObjectBox.Dir, {
 				break;
 			case '-':
 			case '--':
-				var lineLen = MathJax.xypic.measure.lineElementLength;
+				var lineLen = xypicGlobalContext.measure.lineElementLength;
 				if (this.variant === "3") {
 					shape = new Shape.Line3ArrowheadShape(c, angle);
 				} else if (this.variant === "2") {
@@ -1327,7 +1327,7 @@ augment(AST.ObjectBox.Dir, {
 				break;
 				
 			default:
-				var newdirObj = MathJax.xypic.repositories.dirRepository.get(this.main);
+				var newdirObj = xypicGlobalContext.repositories.dirRepository.get(this.main);
 				if (newdirObj !== undefined) {
 					shape = newdirObj.toDropShape(context);
 				} else {
@@ -1342,7 +1342,7 @@ augment(AST.ObjectBox.Dir, {
 		// 多重線の幅、点線・破線の幅の基準
 		var env = context.env;
 		env.originalReferencePoint = env.c;
-		var t = MathJax.xypic.measure.thickness;
+		var t = xypicGlobalContext.measure.thickness;
 		var s = env.p.edgePoint(env.c.x, env.c.y);
 		var e = env.c.edgePoint(env.p.x, env.p.y);
 		if (s.x !== e.x || s.y !== e.y) {
@@ -1376,7 +1376,7 @@ augment(AST.ObjectBox.Curve, {
 			objectForConnect = new AST.Object(List.empty, new AST.ObjectBox.Dir("", "-"));
 		}
 		
-		var thickness = MathJax.xypic.measure.thickness;
+		var thickness = xypicGlobalContext.measure.thickness;
 		
 		var c = env.c;
 		var p = env.p;
@@ -1384,7 +1384,7 @@ augment(AST.ObjectBox.Curve, {
 		this.poslist.foreach(function (p) {
 			p.addPositions(controlPoints, context);
 			// svg.createSVGElement("circle", {
-			// 	cx:MathJax.xypic.measure.em2px(env.c.x), cy:-MathJax.xypic.measure.em2px(env.c.y), r:MathJax.xypic.measure.em2px(thickness/2)
+			// 	cx:xypicGlobalContext.measure.em2px(env.c.x), cy:-xypicGlobalContext.measure.em2px(env.c.y), r:xypicGlobalContext.measure.em2px(thickness/2)
 			// });
 		});
 		
@@ -1451,7 +1451,7 @@ augment(AST.ObjectBox.Curve, {
 		}
 		
 //        svg.createSVGElement("rect", {
-//          x:MathJax.xypic.measure.em2px(box.x-box.l), y:MathJax.xypic.measure.em2px(-box.y-box.u), width:MathJax.xypic.measure.em2px(box.l+box.r), height:MathJax.xypic.measure.em2px(box.u+box.d),
+//          x:xypicGlobalContext.measure.em2px(box.x-box.l), y:xypicGlobalContext.measure.em2px(-box.y-box.u), width:xypicGlobalContext.measure.em2px(box.l+box.r), height:xypicGlobalContext.measure.em2px(box.u+box.d),
 //          "stroke-width":"0.02em", stroke:"green"
 //        })
 		return shape;
@@ -1693,7 +1693,7 @@ augment(AST.Vector.InCurBase, {
 
 augment(AST.Vector.Abs, {
 	xy: function (context) {
-		return { x:MathJax.xypic.measure.length2em(this.x), y:MathJax.xypic.measure.length2em(this.y) };
+		return { x:xypicGlobalContext.measure.length2em(this.x), y:xypicGlobalContext.measure.length2em(this.y) };
 	},
 	angle: function (context) {
 		var xy = this.xy(context);
@@ -1714,7 +1714,7 @@ augment(AST.Vector.Angle, {
 
 augment(AST.Vector.Dir, {
 	xy: function (context) {
-		var l = MathJax.xypic.measure.length2em(this.dimen);
+		var l = xypicGlobalContext.measure.length2em(this.dimen);
 		var angle = this.dir.angle(context);
 		return { x:l * Math.cos(angle), y:l * Math.sin(angle) };
 	},
@@ -1889,7 +1889,7 @@ augment(AST.Corner.PropEdgePoint, {
 
 augment(AST.Corner.Axis, {
 	xy: function (context) {
-		return { x:0, y:MathJax.xypic.measure.axisHeightLength };
+		return { x:0, y:xypicGlobalContext.measure.axisHeightLength };
 	},
 	angle: function (context) {
 		return Math.PI / 2;
@@ -2088,7 +2088,7 @@ augment(AST.Modifier.Shape.ChangeColor, {
 
 augment(AST.Modifier.Shape.Alphabets, {
 	preprocess: function (context, reversedProcessedModifiers) {
-		var modifier = MathJax.xypic.repositories.modifierRepository.get(this.alphabets);
+		var modifier = xypicGlobalContext.repositories.modifierRepository.get(this.alphabets);
 		if (modifier !== undefined) {
 			return modifier.preprocess(context, reversedProcessedModifiers);
 		} else {
@@ -2096,7 +2096,7 @@ augment(AST.Modifier.Shape.Alphabets, {
 		}
 	},
 	modifyShape: function (context, objectShape, restModifiers) {
-		var modifier = MathJax.xypic.repositories.modifierRepository.get(this.alphabets);
+		var modifier = xypicGlobalContext.repositories.modifierRepository.get(this.alphabets);
 		if (modifier !== undefined) {
 			return modifier.modifyShape(context, objectShape, restModifiers);
 		}
@@ -2106,7 +2106,7 @@ augment(AST.Modifier.Shape.Alphabets, {
 augment(AST.Modifier.Shape.DefineShape, {
 	preprocess: function (context, reversedProcessedModifiers) {
 		var processedModifiers = reversedProcessedModifiers.reverse();
-		MathJax.xypic.repositories.modifierRepository.put(this.shape, new AST.Modifier.Shape.CompositeModifiers(processedModifiers));
+		xypicGlobalContext.repositories.modifierRepository.put(this.shape, new AST.Modifier.Shape.CompositeModifiers(processedModifiers));
 	},
 	modifyShape: function (context, objectShape, restModifiers) {
 		return this.proceedModifyShape(context, objectShape, restModifiers);
@@ -2520,7 +2520,7 @@ augment(AST.Command.Ar.Form.DashArrowStem, {
 augment(AST.Command.Ar.Form.CurveArrow, {
 	toShape: function (context) {
 		var env = context.env;
-		var cpDist = MathJax.xypic.measure.em2length(MathJax.xypic.measure.length2em(this.dist) * 2);
+		var cpDist = xypicGlobalContext.measure.em2length(xypicGlobalContext.measure.length2em(this.dist) * 2);
 		// the following AST means **\crv{{**@{} ?+/d 2l/}}. too long...
 		env.pathActionForBeforeSegment = new Option.Some(
 			new AST.PosDecor(
@@ -2690,7 +2690,7 @@ augment(AST.Command.Ar.Form.AddModifiers, {
 
 augment(AST.Command.Ar.Form.Slide, {
 	toShape: function (context) {
-		context.env.segmentSlideEm = new Option.Some(MathJax.xypic.measure.length2em(this.slideDimen));
+		context.env.segmentSlideEm = new Option.Some(xypicGlobalContext.measure.length2em(this.slideDimen));
 	}
 });
 
@@ -2946,7 +2946,7 @@ augment(AST.Command.Path.TurningSegment, {
 		
 		var slideEm = env.segmentSlideEm.getOrElse(0);
 		this.segment.slide.dimen.foreach(function (d) {
-			slideEm = MathJax.xypic.measure.length2em(d);
+			slideEm = xypicGlobalContext.measure.length2em(d);
 			env.segmentSlideEm = new Option.Some(slideEm);
 		});
 		if (slideEm !== 0) {
@@ -3068,13 +3068,13 @@ augment(AST.Command.Path.Turn.Diag, {
 
 augment(AST.Command.Path.TurnRadius.Default, {
 	radius: function (context) {
-		return MathJax.xypic.measure.turnradius;
+		return xypicGlobalContext.measure.turnradius;
 	}
 });
 
 augment(AST.Command.Path.TurnRadius.Dimen, {
 	radius: function (context) {
-		return MathJax.xypic.measure.length2em(this.dimen);
+		return xypicGlobalContext.measure.length2em(this.dimen);
 	}
 });
 
@@ -3091,7 +3091,7 @@ augment(AST.Command.Path.Segment, {
 		var angle = Math.atan2(ty, tx) + Math.PI / 2;
 		var slideEm = env.segmentSlideEm.getOrElse(0);
 		this.slide.dimen.foreach(function (d) {
-			slideEm = MathJax.xypic.measure.length2em(d);
+			slideEm = xypicGlobalContext.measure.length2em(d);
 			env.segmentSlideEm = new Option.Some(slideEm);
 		});
 		if (slideEm !== 0) {
@@ -3204,8 +3204,8 @@ augment(AST.Command.Xymatrix, {
 		var subEnv = origEnv.duplicate();
 		var subcontext = new DrawingContext(Shape.none, subEnv);
 		subEnv.xymatrixPrefix = "";
-		subEnv.xymatrixRowSepEm = MathJax.xypic.measure.length2em("2pc");
-		subEnv.xymatrixColSepEm = MathJax.xypic.measure.length2em("2pc");
+		subEnv.xymatrixRowSepEm = xypicGlobalContext.measure.length2em("2pc");
+		subEnv.xymatrixColSepEm = xypicGlobalContext.measure.length2em("2pc");
 		subEnv.xymatrixPretendEntryHeight = Option.empty;
 		subEnv.xymatrixPretendEntryWidth = Option.empty;
 		subEnv.xymatrixFixedRow = false;
@@ -3546,21 +3546,21 @@ augment(AST.Command.Xymatrix.Setup.Prefix, {
 augment(AST.Command.Xymatrix.Setup.ChangeSpacing.Row, {
 	toShape: function (context) {
 		var env = context.env;
-		env.xymatrixRowSepEm = this.addop.applyToDimen(env.xymatrixRowSepEm, MathJax.xypic.measure.length2em(this.dimen));
+		env.xymatrixRowSepEm = this.addop.applyToDimen(env.xymatrixRowSepEm, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.ChangeSpacing.Column, {
 	toShape: function (context) {
 		var env = context.env;
-		env.xymatrixColSepEm = this.addop.applyToDimen(env.xymatrixColSepEm, MathJax.xypic.measure.length2em(this.dimen));
+		env.xymatrixColSepEm = this.addop.applyToDimen(env.xymatrixColSepEm, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.ChangeSpacing.RowAndColumn, {
 	toShape: function (context) {
 		var env = context.env;
-		var sepEm = this.addop.applyToDimen(env.xymatrixRowSepEm, MathJax.xypic.measure.length2em(this.dimen));
+		var sepEm = this.addop.applyToDimen(env.xymatrixRowSepEm, xypicGlobalContext.measure.length2em(this.dimen));
 		env.xymatrixRowSepEm = sepEm;
 		env.xymatrixColSepEm = sepEm;
 	}
@@ -3568,19 +3568,19 @@ augment(AST.Command.Xymatrix.Setup.ChangeSpacing.RowAndColumn, {
 
 augment(AST.Command.Xymatrix.Setup.PretendEntrySize.Height, {
 	toShape: function (context) {
-		context.env.xymatrixPretendEntryHeight = new Option.Some(MathJax.xypic.measure.length2em(this.dimen));
+		context.env.xymatrixPretendEntryHeight = new Option.Some(xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.PretendEntrySize.Width, {
 	toShape: function (context) {
-		context.env.xymatrixPretendEntryWidth = new Option.Some(MathJax.xypic.measure.length2em(this.dimen));
+		context.env.xymatrixPretendEntryWidth = new Option.Some(xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.PretendEntrySize.HeightAndWidth, {
 	toShape: function (context) {
-		var len = new Option.Some(MathJax.xypic.measure.length2em(this.dimen));
+		var len = new Option.Some(xypicGlobalContext.measure.length2em(this.dimen));
 		context.env.xymatrixPretendEntryHeight = len;
 		context.env.xymatrixPretendEntryWidth = len;
 	}
@@ -3608,28 +3608,28 @@ augment(AST.Command.Xymatrix.Setup.FixGrid.RowAndColumn, {
 augment(AST.Command.Xymatrix.Setup.AdjustEntrySize.Margin, {
 	toShape: function (context) {
 		var env = context.env;
-		env.objectmargin = this.addop.applyToDimen(env.objectmargin, MathJax.xypic.measure.length2em(this.dimen));
+		env.objectmargin = this.addop.applyToDimen(env.objectmargin, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.AdjustEntrySize.Width, {
 	toShape: function (context) {
 		var env = context.env;
-		env.objectwidth = this.addop.applyToDimen(env.objectwidth, MathJax.xypic.measure.length2em(this.dimen));
+		env.objectwidth = this.addop.applyToDimen(env.objectwidth, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.AdjustEntrySize.Height, {
 	toShape: function (context) {
 		var env = context.env;
-		env.objectheight = this.addop.applyToDimen(env.objectheight, MathJax.xypic.measure.length2em(this.dimen));
+		env.objectheight = this.addop.applyToDimen(env.objectheight, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Xymatrix.Setup.AdjustLabelSep, {
 	toShape: function (context) {
 		var env = context.env;
-		env.labelmargin = this.addop.applyToDimen(env.labelmargin, MathJax.xypic.measure.length2em(this.dimen));
+		env.labelmargin = this.addop.applyToDimen(env.labelmargin, xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
@@ -3650,12 +3650,12 @@ augment(AST.Command.Xymatrix.Setup.AddModifier, {
 augment(AST.Command.Xymatrix.Entry.SimpleEntry, {
 	toShape: function (context) {
 		var env = context.env;
-		var defaultWidth = MathJax.xypic.measure.em2length(env.objectmargin + env.objectwidth);
-		var defaultHeight = MathJax.xypic.measure.em2length(env.objectmargin + env.objectheight);
+		var defaultWidth = xypicGlobalContext.measure.em2length(env.objectmargin + env.objectwidth);
+		var defaultHeight = xypicGlobalContext.measure.em2length(env.objectmargin + env.objectheight);
 		var defaultSizeModifier = new AST.Modifier.AddOp(new AST.Modifier.AddOp.GrowTo(), new AST.Modifier.AddOp.VactorSize(new AST.Vector.Abs(
 			defaultWidth, defaultHeight
 		)));
-		var margin = MathJax.xypic.measure.em2length(env.objectmargin);
+		var margin = xypicGlobalContext.measure.em2length(env.objectmargin);
 		var marginModifier = new AST.Modifier.AddOp(new AST.Modifier.AddOp.Grow(), new AST.Modifier.AddOp.VactorSize(new AST.Vector.Abs(
 			margin, margin
 		)));
@@ -3667,12 +3667,12 @@ augment(AST.Command.Xymatrix.Entry.SimpleEntry, {
 augment(AST.Command.Xymatrix.Entry.EmptyEntry, {
 	toShape: function (context) {
 		var env = context.env;
-		var defaultWidth = MathJax.xypic.measure.em2length(env.objectmargin + env.objectwidth);
-		var defaultHeight = MathJax.xypic.measure.em2length(env.objectmargin + env.objectheight);
+		var defaultWidth = xypicGlobalContext.measure.em2length(env.objectmargin + env.objectwidth);
+		var defaultHeight = xypicGlobalContext.measure.em2length(env.objectmargin + env.objectheight);
 		var defaultSizeModifier = new AST.Modifier.AddOp(new AST.Modifier.AddOp.GrowTo(), new AST.Modifier.AddOp.VactorSize(new AST.Vector.Abs(
 			defaultWidth, defaultHeight
 		)));
-		var margin = MathJax.xypic.measure.em2length(env.objectmargin);
+		var margin = xypicGlobalContext.measure.em2length(env.objectmargin);
 		var marginModifier = new AST.Modifier.AddOp(new AST.Modifier.AddOp.Grow(), new AST.Modifier.AddOp.VactorSize(new AST.Vector.Abs(
 			margin, margin
 		)));
@@ -3893,7 +3893,7 @@ augment(AST.Command.Twocell.Twocell, {
 	toLowerCurveShape: function (context, s, cp, e, objectForDrop, objectForConnect) {
 		this._toCurveShape(context, s, cp, e, objectForDrop, objectForConnect);
 	},
-	getDefaultCurvature: function () { return 3.5 * MathJax.xypic.measure.lineElementLength; },
+	getDefaultCurvature: function () { return 3.5 * xypicGlobalContext.measure.lineElementLength; },
 	hasUpperTips: true,
 	hasLowerTips: true
 });
@@ -3943,7 +3943,7 @@ augment(AST.Command.Twocell.UpperTwocell, {
 			context.env.lastCurve = LastCurve.none;
 		}
 	},
-	getDefaultCurvature: function () { return 7 * MathJax.xypic.measure.lineElementLength; },
+	getDefaultCurvature: function () { return 7 * xypicGlobalContext.measure.lineElementLength; },
 	hasUpperTips: true,
 	hasLowerTips: false
 });
@@ -3993,7 +3993,7 @@ augment(AST.Command.Twocell.LowerTwocell, {
 	toLowerCurveShape: function (context, s, cp, e, objectForDrop, objectForConnect) {
 		this._toCurveShape(context, s, cp, e, objectForDrop, objectForConnect);
 	},
-	getDefaultCurvature: function () { return -7 * MathJax.xypic.measure.lineElementLength; },
+	getDefaultCurvature: function () { return -7 * xypicGlobalContext.measure.lineElementLength; },
 	hasUpperTips: false,
 	hasLowerTips: true
 });
@@ -4078,8 +4078,8 @@ augment(AST.Command.Twocell.CompositeMap, {
 		env.p = p;
 		env.c = c;
 	},
-	getMidBoxSize: function () { return 0.5 * MathJax.xypic.measure.lineElementLength; },
-	getDefaultCurvature: function () { return 3.5 * MathJax.xypic.measure.lineElementLength; },
+	getMidBoxSize: function () { return 0.5 * xypicGlobalContext.measure.lineElementLength; },
+	getDefaultCurvature: function () { return 3.5 * xypicGlobalContext.measure.lineElementLength; },
 	hasUpperTips: true,
 	hasLowerTips: true
 });
@@ -4110,7 +4110,7 @@ augment(AST.Command.Twocell.Switch.SetCurvature, {
 		if (this.nudge.isOmit) {
 			env.twocellShouldDrawCurve = false;
 		} else {
-			env.twocellCurvatureEm = new Option.Some(this.nudge.number * MathJax.xypic.measure.lineElementLength);
+			env.twocellCurvatureEm = new Option.Some(this.nudge.number * xypicGlobalContext.measure.lineElementLength);
 		}
 	}
 });
@@ -4174,7 +4174,7 @@ augment(AST.Command.Twocell.Label, {
 			if (nudge.isOmit) {
 				return;
 			} else {
-				offset = nudge.number * MathJax.xypic.measure.lineElementLength;
+				offset = nudge.number * xypicGlobalContext.measure.lineElementLength;
 			}
 		} else {
 			offset = this.getDefaultLabelOffset();
@@ -4191,7 +4191,7 @@ augment(AST.Command.Twocell.Label, {
 		env.c = c;
 		
 	},
-	getDefaultLabelOffset: function () { return MathJax.xypic.measure.lineElementLength; }
+	getDefaultLabelOffset: function () { return xypicGlobalContext.measure.lineElementLength; }
 });
 
 augment(AST.Command.Twocell.Nudge.Number, {
@@ -4286,8 +4286,8 @@ augment(AST.Command.Twocell.Arrow.WithOrientation, {
 				env.angle = angle + Math.PI;
 				env.twocellarrowobject.toDropShape(context);
 				env.c = new Frame.Point(
-					c.x + MathJax.xypic.measure.lineElementLength * Math.cos(angle - Math.PI / 2),
-					c.y + MathJax.xypic.measure.lineElementLength * Math.sin(angle - Math.PI / 2)
+					c.x + xypicGlobalContext.measure.lineElementLength * Math.cos(angle - Math.PI / 2),
+					c.y + xypicGlobalContext.measure.lineElementLength * Math.sin(angle - Math.PI / 2)
 				);
 				this.labelObject.toDropShape(context);
 				env.angle = angle;
@@ -4297,8 +4297,8 @@ augment(AST.Command.Twocell.Arrow.WithOrientation, {
 				var angle = env.angle;
 				env.twocellarrowobject.toDropShape(context);
 				env.c = new Frame.Point(
-					c.x + MathJax.xypic.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
-					c.y + MathJax.xypic.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
+					c.x + xypicGlobalContext.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
+					c.y + xypicGlobalContext.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
 				);
 				this.labelObject.toDropShape(context);
 				break;
@@ -4307,8 +4307,8 @@ augment(AST.Command.Twocell.Arrow.WithOrientation, {
 				var shape = new Shape.TwocellEqualityArrowheadShape(env.c, env.angle);
 				context.appendShapeToFront(shape);
 				env.c = new Frame.Point(
-					c.x + MathJax.xypic.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
-					c.y + MathJax.xypic.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
+					c.x + xypicGlobalContext.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
+					c.y + xypicGlobalContext.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
 				);
 				this.labelObject.toDropShape(context);
 				break;
@@ -4336,7 +4336,7 @@ augment(AST.Command.Twocell.Arrow.WithPosition, {
 		if (nudge.isOmit) {
 			arrowPos = c;
 		} else {
-			var offset = nudge.number * MathJax.xypic.measure.lineElementLength;
+			var offset = nudge.number * xypicGlobalContext.measure.lineElementLength;
 			arrowPos = new Frame.Point(
 				labelOrigin.x + offset * Math.cos(angle),
 				labelOrigin.y + offset * Math.sin(angle)
@@ -4347,8 +4347,8 @@ augment(AST.Command.Twocell.Arrow.WithPosition, {
 		env.twocellarrowobject.toDropShape(context);
 		if (!nudge.isOmit) {
 			env.c = new Frame.Point(
-				arrowPos.x + MathJax.xypic.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
-				arrowPos.y + MathJax.xypic.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
+				arrowPos.x + xypicGlobalContext.measure.lineElementLength * Math.cos(angle + Math.PI / 2),
+				arrowPos.y + xypicGlobalContext.measure.lineElementLength * Math.sin(angle + Math.PI / 2)
 			);
 			this.labelObject.toDropShape(context);
 		}
@@ -4462,13 +4462,13 @@ augment(AST.Command.Includegraphics, {
 augment(AST.Command.Includegraphics.Attr.Width, {
 	setup: function (context) {
 		var env = context.env;
-		env.includegraphicsWidth = new Option.Some(MathJax.xypic.measure.length2em(this.dimen));
+		env.includegraphicsWidth = new Option.Some(xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });
 
 augment(AST.Command.Includegraphics.Attr.Height, {
 	setup: function (context) {
 		var env = context.env;
-		env.includegraphicsHeight = new Option.Some(MathJax.xypic.measure.length2em(this.dimen));
+		env.includegraphicsHeight = new Option.Some(xypicGlobalContext.measure.length2em(this.dimen));
 	}
 });

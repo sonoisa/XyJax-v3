@@ -7,6 +7,10 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
+    options: {
+      compileError(doc, math, err) {throw err},
+      typesetError(doc, math, err) {throw err}
+    },
     loader: {
       load: ['[custom]/xypic.js'],
       paths: {custom: '../build'}

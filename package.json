@@ -1,6 +1,6 @@
 {
   "name": "xyjax",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "description": "XyJax for MathJax 3",
   "license": "Apache-2.0",
   "author": "Isao Sonobe",
@@ -12,18 +12,22 @@
   "scripts": {
     "build_mathjax": "git clone https://github.com/mathjax/MathJax-src.git mathjax; cd mathjax; npm install; npm run compile; npm run make-components",
     "build_mathjax_for_debug": "git clone https://github.com/mathjax/MathJax-src.git mathjax; cd mathjax; npm install; npm install --save source-map-support; gsed -i 's/module.exports = PACKAGE;/module.exports = function (name, mathjax, libs, dir, dist) { const config = PACKAGE(name, mathjax, libs, dir, dist); config[\"devtool\"] = \"inline-source-map\"; return config };/' components/webpack.common.js; npm run compile; npm run make-components",
-    "build": "[ ! -d \"./mathjax\" ] && npm run build_mathjax; cd src; node ../mathjax/components/bin/makeAll",
+    "build": "[ ! -d \"./mathjax\" ] && npm run build_mathjax; cd components/xypic; node ../bin/pack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm ./build/*.js ./build/*.txt"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "babel-loader": "^8.1.0",
+    "path-browserify": "^1.0.1",
     "source-map-support": "^0.5.19",
     "ssri": ">=8.0.1",
-    "terser-webpack-plugin": "^4.1.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "terser-webpack-plugin": "^5.0.3",
+    "webpack": "^5.3.2",
+    "webpack-cli": "^4.1.0"
+  },
+  "dependencies": {
+    "esm": "^3.2.25"
   }
 }

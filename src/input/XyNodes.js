@@ -17,6 +17,7 @@
 
 
 import {AbstractMmlNode, TEXCLASS} from "../../mathjax/js/core/MmlTree/MmlNode.js";
+import {MML} from "../../mathjax/js/core/MmlTree/MML.js";
 
 
 export class AST {};
@@ -35,6 +36,7 @@ BaseXyMmlNode.defaults = AbstractMmlNode.defaults;
 
 AST.xypic = class AST_xypic extends BaseXyMmlNode {
 	constructor(mmlFactory, command, textMmls) {
+		console.log(arguments)
 		super(mmlFactory, textMmls);
 		this.cmd = command;
 	}
@@ -47,6 +49,7 @@ AST.xypic = class AST_xypic extends BaseXyMmlNode {
 };
 
 AST.xypic.defaults = BaseXyMmlNode.defaults;
+MML[AST.xypic.prototype.kind] = AST.xypic;
 
 
 AST.xypic.newdir = class AST_xypic_newdir extends BaseXyMmlNode {
@@ -63,6 +66,7 @@ AST.xypic.newdir = class AST_xypic_newdir extends BaseXyMmlNode {
 };
 
 AST.xypic.newdir.defaults = BaseXyMmlNode.defaults;
+MML[AST.xypic.newdir.prototype.kind] = AST.xypic.newdir;
 
 
 AST.xypic.includegraphics = class AST_xypic_includegraphics extends BaseXyMmlNode {
@@ -79,6 +83,7 @@ AST.xypic.includegraphics = class AST_xypic_includegraphics extends BaseXyMmlNod
 };
 
 AST.xypic.includegraphics.defaults = BaseXyMmlNode.defaults;
+MML[AST.xypic.includegraphics.prototype.kind] = AST.xypic.includegraphics;
 
 
 // <pos-decor> ::= <pos> <decor>
