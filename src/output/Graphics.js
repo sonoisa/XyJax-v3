@@ -64,12 +64,12 @@ class SVG {
 				}
 			}
 		}
-		this.drawArea.appendChild(obj);
+		this.appendChild(obj);
 		return obj;
 	}
 
 	appendChild(svgElement) {
-		this.drawArea.appendChild(svgElement);
+		this.xypicWrapper.adaptor.append(this.drawArea, svgElement);
 		return svgElement;
 	}
 
