@@ -36,7 +36,6 @@ BaseXyMmlNode.defaults = AbstractMmlNode.defaults;
 
 AST.xypic = class AST_xypic extends BaseXyMmlNode {
 	constructor(mmlFactory, command, textMmls) {
-		console.log(arguments)
 		super(mmlFactory, textMmls);
 		this.cmd = command;
 	}
