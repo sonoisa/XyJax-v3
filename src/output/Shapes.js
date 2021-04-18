@@ -615,6 +615,10 @@ Shape.TextShape = class Shape_TextShape extends Shape {
 		return this._draw(xypicGlobalContext.svgForTestLayout, true);
 	}
 
+	_draw(svg, test) {
+		return svg.xypicWrapper.drawTextObject(this, svg, test);
+	}
+	
 	getOriginalReferencePoint() {
 		this.getBoundingBox();
 		var originalBBox = this.originalBBox;

@@ -33,6 +33,8 @@ import {XyParser} from "../input/XyParser.js"
 import {xypicGlobalContext} from "./xypicGlobalContext.js";
 import {ModifierRepository, DirRepository} from "../output/Repositories.js";
 
+import {} from "../output/AugmentXyNodes.js";
+
 function parseXypic(texParser, xyParser, mmlKind) {
 	const textMmls = [];
 

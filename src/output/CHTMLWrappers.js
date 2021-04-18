@@ -29,7 +29,6 @@ import {Frame} from "./Frames.js";
 import {Graphics} from "./Graphics.js";
 import {DrawingContext} from "./DrawingContext.js";
 import {Env} from "./Curves.js";
-import {augment} from "./AugmentXyNodes.js";
 import {XypicUtil} from "../util/XypicUtil.js";
 
 
@@ -39,63 +38,6 @@ const XLINKNS = 'http://www.w3.org/1999/xlink';
 const round2 = XypicUtil.round2;
 
 export function CreateCHTMLWrapper(wrapper, wrappers) {
-
-	augment(Shape.TextShape, {
-		_draw: function (svg, test) {
-			const p = xypicGlobalContext.measure.length2em("0.2em");
-			const parent = svg.xypicWrapper;
-			const thisWrapper = parent.getChildWrapper(this.math);
-			const adaptor = thisWrapper.adaptor;
-
-			const bbox = thisWrapper.getBBox();
-			const scale = bbox.scale;
-			const H = (bbox.h + p) * scale;
-			const D = (bbox.d + p) * scale;
-			const W = (bbox.w + 2 * p) * scale;
-
-			const halfHD = (H + D) / 2;
-			const halfW = W / 2;
-
-			const c = this.c;
-			this.originalBBox = { H:H, D:D, W:W };
-
-			if (!test) {
-				const thisRoot = thisWrapper.html("mjx-xypic-object");
-				adaptor.append(parent.getElement(), thisRoot);
-
-				// TODO define CSS
-				adaptor.setStyle(thisRoot, "text-align", "center");
-				adaptor.setStyle(thisRoot, "position", "absolute");
-				adaptor.setStyle(thisRoot, "color", svg.getCurrentColor());
-				thisWrapper.toCHTML(thisRoot);
-
-				const origin = svg.getOrigin();
-				adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
-				adaptor.setAttribute(thisRoot, "data-y", (-c.y - halfHD - origin.y + p * scale));
-				adaptor.setAttribute(thisRoot, "data-xypic-id", this.math.xypicTextObjectId);
-				parent.appendTextObject(thisRoot);
-
-				// for DEBUGGING
-				// svg.createSVGElement("rect", {
-				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
-				// 	y: -xypicGlobalContext.measure.em2px(c.y - (H - D) / 2),
-				// 	width: xypicGlobalContext.measure.em2px(W),
-				// 	height: 0.01,
-				// 	stroke: "green", "stroke-width": 0.3
-				// });
-				// svg.createSVGElement("rect", {
-				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
-				// 	y: -xypicGlobalContext.measure.em2px(c.y + halfHD),
-				// 	width: xypicGlobalContext.measure.em2px(W),
-				// 	height: xypicGlobalContext.measure.em2px(H + D),
-				// 	stroke: "green", "stroke-width":0.5
-				// });
-			}
-
-			return c.toRect({ u:halfHD, d:halfHD, l:halfW, r:halfW });
-		}
-	});
-
 
 	class AbstractCHTMLxypic extends CHTMLWrapper {
 		constructor(factory, node, parent=null) {
@@ -200,6 +142,60 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 
 		setStyle(node, name, value) {
 			this.adaptor.setStyle(node, name, value);
+		}
+
+		drawTextObject(textObject, svg, test) {
+			const p = xypicGlobalContext.measure.length2em("0.2em");
+			const parent = svg.xypicWrapper;
+			const textObjectWrapper = parent.getChildWrapper(textObject.math);
+			const adaptor = textObjectWrapper.adaptor;
+
+			const bbox = textObjectWrapper.getBBox();
+			const scale = bbox.scale;
+			const H = (bbox.h + p) * scale;
+			const D = (bbox.d + p) * scale;
+			const W = (bbox.w + 2 * p) * scale;
+
+			const halfHD = (H + D) / 2;
+			const halfW = W / 2;
+
+			const c = textObject.c;
+			textObject.originalBBox = { H:H, D:D, W:W };
+
+			if (!test) {
+				const thisRoot = textObjectWrapper.html("mjx-xypic-object");
+				adaptor.append(parent.getElement(), thisRoot);
+
+				// TODO define CSS
+				adaptor.setStyle(thisRoot, "text-align", "center");
+				adaptor.setStyle(thisRoot, "position", "absolute");
+				adaptor.setStyle(thisRoot, "color", svg.getCurrentColor());
+				textObjectWrapper.toCHTML(thisRoot);
+
+				const origin = svg.getOrigin();
+				adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
+				adaptor.setAttribute(thisRoot, "data-y", (-c.y - halfHD - origin.y + p * scale));
+				adaptor.setAttribute(thisRoot, "data-xypic-id", textObject.math.xypicTextObjectId);
+				parent.appendTextObject(thisRoot);
+
+				// for DEBUGGING
+				// svg.createSVGElement("rect", {
+				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
+				// 	y: -xypicGlobalContext.measure.em2px(c.y - (H - D) / 2),
+				// 	width: xypicGlobalContext.measure.em2px(W),
+				// 	height: 0.01,
+				// 	stroke: "green", "stroke-width": 0.3
+				// });
+				// svg.createSVGElement("rect", {
+				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
+				// 	y: -xypicGlobalContext.measure.em2px(c.y + halfHD),
+				// 	width: xypicGlobalContext.measure.em2px(W),
+				// 	height: xypicGlobalContext.measure.em2px(H + D),
+				// 	stroke: "green", "stroke-width":0.5
+				// });
+			}
+
+			return c.toRect({ u:halfHD, d:halfHD, l:halfW, r:halfW });
 		}
 	}
 
