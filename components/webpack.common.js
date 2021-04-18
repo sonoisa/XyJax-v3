@@ -154,7 +154,6 @@ const PACKAGE = function (name, js, libs, dir, dist) {
         "path": require.resolve("path-browserify")
       }
     },
-    devtool: "inline-source-map",  // for DEBUGGING
     target: ['web', 'es5'],  // needed for IE11 and old browsers
     plugins: PLUGINS(js, libs, dir),
     module: MODULE(dir),

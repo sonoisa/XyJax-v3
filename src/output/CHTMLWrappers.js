@@ -72,8 +72,6 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 				const origin = svg.getOrigin();
 				adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
 				adaptor.setAttribute(thisRoot, "data-y", (-c.y - halfHD - origin.y + p * scale));
-				// adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
-				// adaptor.setAttribute(thisRoot, "data-y", (-c.y - halfHD - origin.y + p * scale));
 				adaptor.setAttribute(thisRoot, "data-xypic-id", this.math.xypicTextObjectId);
 				parent.appendTextObject(thisRoot);
 
@@ -288,7 +286,7 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 						const tx = parseFloat(adaptor.getAttribute(to, "data-x"));
 						const ty = parseFloat(adaptor.getAttribute(to, "data-y"));
 						adaptor.setStyle(to, "left", "" + round2(tx - xOffsetEm) + "em");
-						adaptor.setStyle(to, "top", "" + round2(ty - yOffsetEm - svgHeight - p + xypicGlobalContext.measure.axis_height) + "em");
+						adaptor.setStyle(to, "top", "" + round2(ty + box.y - box.d - p * 0.5) + "em");
 					}
 				} else {
 					// there is no contents
