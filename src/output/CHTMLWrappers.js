@@ -18,10 +18,9 @@
 
 import {CHTMLWrapper} from "../../mathjax/js/output/chtml/Wrapper.js";
 import {CHTMLWrappers} from "../../mathjax/js/output/chtml/Wrappers.js";
-
-import TexError from "../../mathjax/js/input/tex/TexError.js";
 import {BBox} from '../../mathjax/js/util/BBox.js';
 
+import createXypicError from "../core/XypicError.js";
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 import {AST} from "../input/XyNodes.js";
 import {Shape} from "./Shapes.js";
@@ -68,12 +67,12 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 			const textObjectId = childMml.xypicTextObjectId;
 			if (textObjectId == undefined) {
 				// 不到達コード
-				throw new TexError("IllegalStateError", "BUG");
+				throw createXypicError("IllegalStateError", "BUG");
 			}
 			const wrapper = xypicGlobalContext.wrapperOfTextObjectMap[textObjectId];
 			if (wrapper == undefined) {
 				// 不到達コード
-				throw new TexError("IllegalStateError", "unknown textObjectId:" + textObjectId);
+				throw createXypicError("IllegalStateError", "unknown textObjectId:" + textObjectId);
 			}
 
 			return wrapper;
@@ -215,6 +214,17 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 			return AST.xypic.prototype.kind;
 		}
 
+		static get styles() {
+			return {
+				'mjx-xypic path': {
+					"stroke-width": "inherit"
+				},
+				'.MathJax mjx-xypic path': {
+					"stroke-width": "inherit"
+				}
+			};
+		}
+
 		_toCHTML(parent) {
 			const chtml = this.standardCHTMLnode(parent);
 			this.cthml = chtml;
@@ -336,7 +346,7 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 			const graphics = this.node.cmd;
 			graphics.setup(context);
 			if (!env.includegraphicsWidth.isDefined || !env.includegraphicsHeight.isDefined) {
-				throw new TexError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
+				throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
 			}
 
 			const imageWidth = env.includegraphicsWidth.get;

@@ -16,7 +16,7 @@
  */
 
 
-import TexError from "../../mathjax/js/input/tex/TexError.js";
+ import createXypicError from "../core/XypicError.js";
 
 import {XypicConstants} from "../util/XypicConstants.js";
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
@@ -1331,7 +1331,7 @@ augment(AST.ObjectBox.Dir, {
 				if (newdirObj !== undefined) {
 					shape = newdirObj.toDropShape(context);
 				} else {
-					throw new TeXError("ExecutionError", "\\dir " + this.variant + "{" + this.main + "} not defined.");
+					throw createXypicError("ExecutionError", "\\dir " + this.variant + "{" + this.main + "} not defined.");
 				}
 		}
 		
@@ -1595,7 +1595,7 @@ augment(AST.Coord.DeltaRowColumn, {
 		var row = env.xymatrixRow;
 		var col = env.xymatrixCol;
 		if (row === undefined || col === undefined) {
-			throw new TeXError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
+			throw createXypicError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
 		}
 		var id = this.prefix + (row + this.dr) + "," + (col + this.dc);
 		return context.env.lookupPos(id, 'in entry "' + env.xymatrixRow + "," + env.xymatrixCol + '": No ' + this + " (is " + id + ") from here.").position(context);
@@ -1608,7 +1608,7 @@ augment(AST.Coord.Hops, {
 		var row = env.xymatrixRow;
 		var col = env.xymatrixCol;
 		if (row === undefined || col === undefined) {
-			throw new TeXError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
+			throw createXypicError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
 		}
 		this.hops.foreach(function (hop) {
 			switch (hop) {
@@ -1637,7 +1637,7 @@ augment(AST.Coord.HopsWithPlace, {
 		var row = env.xymatrixRow;
 		var col = env.xymatrixCol;
 		if (row === undefined || col === undefined) {
-			throw new TeXError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
+			throw createXypicError("ExecutionError", "xymatrix rows and columns not found for " + this.toSring());
 		}
 		this.hops.foreach(function (hop) {
 			switch (hop) {
@@ -3828,7 +3828,7 @@ augment(AST.Command.Twocell.Hops2cell, {
 		var row = env.xymatrixRow;
 		var col = env.xymatrixCol;
 		if (row === undefined || col === undefined) {
-			throw new TeXError("ExecutionError", "rows and columns not found for hops [" + this.hops + "]");
+			throw createXypicError("ExecutionError", "rows and columns not found for hops [" + this.hops + "]");
 		}
 		for (var i = 0; i < this.hops.length; i++) {
 			switch (this.hops[i]) {
@@ -4370,7 +4370,7 @@ augment(AST.Pos.Xyimport.TeXCommand, {
 		var xyWidth = this.width;
 		var xyHeight = this.height;
 		if (xyWidth === 0 || xyHeight === 0) {
-			throw new TeXError("ExecutionError", "the 'width' and 'height' attributes of the \\xyimport should be non-zero.");
+			throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\xyimport should be non-zero.");
 		}
 		
 		var c = subEnv.c;
@@ -4378,7 +4378,7 @@ augment(AST.Pos.Xyimport.TeXCommand, {
 		var imageHeight = c.u + c.d;
 		
 		if (imageWidth === 0 || imageHeight === 0) {
-			throw new TeXError("ExecutionError", "the width and height of the graphics to import should be non-zero.");
+			throw createXypicError("ExecutionError", "the width and height of the graphics to import should be non-zero.");
 		}
 		
 		var xOffset = this.xOffset;
@@ -4414,19 +4414,19 @@ augment(AST.Pos.Xyimport.Graphics, {
 		var xyWidth = this.width;
 		var xyHeight = this.height;
 		if (xyWidth === 0 || xyHeight === 0) {
-			throw new TeXError("ExecutionError", "the 'width' and 'height' attributes of the \\xyimport should be non-zero.");
+			throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\xyimport should be non-zero.");
 		}
 		
 		var graphics = this.graphics;
 		graphics.setup(subcontext);
 		if (!subEnv.includegraphicsWidth.isDefined || !subEnv.includegraphicsHeight.isDefined) {
-			throw new TeXError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
+			throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
 		}
 		var imageWidth = subEnv.includegraphicsWidth.get;
 		var imageHeight = subEnv.includegraphicsHeight.get;
 		
 		if (imageWidth === 0 || imageHeight === 0) {
-			throw new TeXError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics should be non-zero.");
+			throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics should be non-zero.");
 		}
 		
 		var xOffset = this.xOffset;

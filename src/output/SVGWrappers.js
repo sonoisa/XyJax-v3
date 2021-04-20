@@ -19,7 +19,7 @@
 import {SVGWrapper} from "../../mathjax/js/output/svg/Wrapper.js";
 import {SVGWrappers} from "../../mathjax/js/output/svg/Wrappers.js";
 
-import TexError from "../../mathjax/js/input/tex/TexError.js";
+import createXypicError from "../core/XypicError.js";
 import {BBox} from '../../mathjax/js/util/BBox.js';
 
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
@@ -68,12 +68,12 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 			const textObjectId = childMml.xypicTextObjectId;
 			if (textObjectId == undefined) {
 				// 不到達コード
-				throw new TexError("IllegalStateError", "BUG");
+				throw createXypicError("IllegalStateError", "BUG");
 			}
 			const wrapper = xypicGlobalContext.wrapperOfTextObjectMap[textObjectId];
 			if (wrapper == undefined) {
 				// 不到達コード
-				throw new TexError("IllegalStateError", "unknown textObjectId:" + textObjectId);
+				throw createXypicError("IllegalStateError", "unknown textObjectId:" + textObjectId);
 			}
 
 			return wrapper;
@@ -166,37 +166,31 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 				const thisRoot = textObjectWrapper.svg("g");
 				adaptor.append(parent.getElement(), thisRoot);
 
-				// TODO define CSS
-				// adaptor.setStyle(thisRoot, "text-align", "center");
-				// adaptor.setStyle(thisRoot, "position", "absolute");
-				// adaptor.setStyle(thisRoot, "color", svg.getCurrentColor());
-				adaptor.setAttribute(thisRoot, "color", svg.getCurrentColor());
+				adaptor.setAttribute(thisRoot, "stroke", svg.getCurrentColor());
+				adaptor.setAttribute(thisRoot, "fill", svg.getCurrentColor());
 				textObjectWrapper.toSVG(thisRoot);
 
 				const origin = svg.getOrigin();
 				adaptor.setAttribute(thisRoot, "data-x", (c.x - halfW - origin.x + p * scale));
-
-				// TODO 座標の上下が逆さまなので、それを考慮したものにすれば良いはず。
 				adaptor.setAttribute(thisRoot, "data-y", (-c.y + ((H - D) / 2) - origin.y));
-
 				adaptor.setAttribute(thisRoot, "data-xypic-id", textObject.math.xypicTextObjectId);
 				parent.appendTextObject(thisRoot);
 
 				// for DEBUGGING
-				svg.createSVGElement("rect", {
-					x: xypicGlobalContext.measure.em2px(c.x - halfW),
-					y: -xypicGlobalContext.measure.em2px(c.y - (H - D) / 2),
-					width: xypicGlobalContext.measure.em2px(W),
-					height: 0.01,
-					stroke: "green", "stroke-width": 0.3
-				});
-				svg.createSVGElement("rect", {
-					x: xypicGlobalContext.measure.em2px(c.x - halfW),
-					y: -xypicGlobalContext.measure.em2px(c.y + halfHD),
-					width: xypicGlobalContext.measure.em2px(W),
-					height: xypicGlobalContext.measure.em2px(H + D),
-					stroke: "green", "stroke-width":0.5
-				});
+				// svg.createSVGElement("rect", {
+				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
+				// 	y: -xypicGlobalContext.measure.em2px(c.y - (H - D) / 2),
+				// 	width: xypicGlobalContext.measure.em2px(W),
+				// 	height: 0.01,
+				// 	stroke: "green", "stroke-width": 0.3
+				// });
+				// svg.createSVGElement("rect", {
+				// 	x: xypicGlobalContext.measure.em2px(c.x - halfW),
+				// 	y: -xypicGlobalContext.measure.em2px(c.y + halfHD),
+				// 	width: xypicGlobalContext.measure.em2px(W),
+				// 	height: xypicGlobalContext.measure.em2px(H + D),
+				// 	stroke: "green", "stroke-width":0.5
+				// });
 			}
 
 			return c.toRect({ u:halfHD, d:halfHD, l:halfW, r:halfW });
@@ -208,12 +202,68 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 	class SVGxypic extends AbstractSVGxypic {
 		constructor(factory, node, parent=null) {
 			super(factory, node, parent);
+			this.shape = null;
 		}
 
-		// TODO impl
-		// computeBBox(bbox, recompute=false) {
-		// 	this.bbox = new BBox({ w: width, h: height / 2, d: height / 2 });
-		// }
+		computeBBox(bbox, recompute=false) {
+			bbox.empty();
+
+			const xypicData = this.node.cmd;
+			if (xypicData) {
+				const p = this.length2em("0.2em");
+
+				if (this.shape == null) {
+					const oldSvgForDebug = xypicGlobalContext.svgForDebug;
+					const oldSvgForTestLayout = xypicGlobalContext.svgForTestLayout;
+					this._textObjects = [];
+					this.setupMeasure(this);
+		
+					const adaptor = this.adaptor;
+		
+					const t = xypicGlobalContext.measure.strokeWidth;
+		
+					const H = 1, D = 0, W = 1;
+		
+					const em2px = xypicGlobalContext.measure.em2px;
+		
+					const color = "black";
+					const svg = Graphics.createSVG(this, H, D, W, t, color, {
+						viewBox: [0, -em2px(H + D), em2px(W), em2px(H + D)].join(" "),
+						role: "img", 
+						focusable: false,
+						overflow: "visible"
+					});
+		
+					xypicGlobalContext.svgForDebug = svg;
+					xypicGlobalContext.svgForTestLayout = svg;
+		
+					const env = new Env();
+					const context = new DrawingContext(Shape.none, env);
+					xypicData.toShape(context);
+					const shape = context.shape;
+					this.shape = shape;
+
+					xypicGlobalContext.svgForDebug = oldSvgForDebug;
+					xypicGlobalContext.svgForTestLayout = oldSvgForTestLayout;
+				}
+
+				const shape = this.shape;
+				let box = shape.getBoundingBox();
+				
+				if (box !== undefined) {
+					box = new Frame.Rect(
+						0, 0,
+						{
+							l: Math.max(0, -(box.x - box.l)),
+							r: Math.max(0, box.x + box.r),
+							u: Math.max(0, box.y + box.u),
+							d: Math.max(0, -(box.y - box.d))
+						}
+					);
+					bbox.updateFrom(new BBox({ w: box.l + box.r + 2 * p, h: box.u + 2 * p, d: box.d }));
+				}
+			}
+		}
 
 		get kind() {
 			return AST.xypic.prototype.kind;
@@ -222,7 +272,10 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 		static get styles() {
 			return {
 				'g[data-mml-node="xypic"] path': {
-					"stroke-width": "initial"
+					"stroke-width": "inherit"
+				},
+				'.MathJax g[data-mml-node="xypic"] path': {
+					"stroke-width": "inherit"
 				}
 			};
 		}
@@ -231,7 +284,6 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 			const svgNode = this.standardSVGnode(parent);
 			this.svgNode = svgNode;
 			const adaptor = this.adaptor;
-			// adaptor.setStyle(svgNode, "position", "relative");
 
 			const p = this.length2em("0.2em");
 			const t = xypicGlobalContext.measure.strokeWidth;
@@ -256,15 +308,18 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 
 			const xypicData = this.node.cmd;
 			if (xypicData) {
-				const env = new Env();
-				
-				const context = new DrawingContext(Shape.none, env);
-				xypicData.toShape(context);
-				const shape = context.shape;
+				if (this.shape == null) {
+					const env = new Env();
+					const context = new DrawingContext(Shape.none, env);
+					xypicData.toShape(context);
+					const shape = context.shape;
+					this.shape = shape;
+				}
 
+				const shape = this.shape;
 				shape.draw(svg);
-				
 				let box = shape.getBoundingBox();
+				
 				if (box !== undefined) {
 					box = new Frame.Rect(
 						0, 0,
@@ -288,20 +343,18 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 							em2px(xOffsetEm), em2px(yOffsetEm), 
 							em2px(svgWidth), em2px(svgHeight)
 						].join(" "));
-					// adaptor.setStyle(svgNode, "vertical-align", round2(- box.d - p + xypicGlobalContext.measure.axis_height) + "em");
+
+					// this.drawBBox();
 
 					const fixedScale = this.fixed(1) / em2px(1);
-					adaptor.setAttribute(svg.drawArea, "transform", "translate(" + this.fixed(-xOffsetEm) + "," + this.fixed(box.y + p - xypicGlobalContext.measure.axis_height) + ") scale(" + fixedScale + ", " + (-fixedScale) + ")");
-					adaptor.setAttribute(svg.drawArea, "class", "xypic");
+					adaptor.setAttribute(svg.drawArea, "transform", "translate(" + this.fixed(-xOffsetEm) + "," + this.fixed(box.y + xypicGlobalContext.measure.axis_height) + ") scale(" + fixedScale + ", " + (-fixedScale) + ")");
 
 					for (let to of this._textObjects) {
 						const tx = parseFloat(adaptor.getAttribute(to, "data-x"));
 						const ty = parseFloat(adaptor.getAttribute(to, "data-y"));
-						const translateX = this.fixed(tx - xOffsetEm);
-						const translateY = this.fixed(-ty + box.y + p - xypicGlobalContext.measure.axis_height);
-						adaptor.setAttribute(to, "transform", "translate(" + translateX + "," + translateY + ")");
-						// adaptor.setStyle(to, "left", "" + round2(tx - xOffsetEm) + "em");
-						// adaptor.setStyle(to, "top", "" + round2(ty + box.y - box.d - p * 0.5) + "em");
+						const translateX = tx - xOffsetEm;
+						const translateY = -ty + box.y + xypicGlobalContext.measure.axis_height;
+						this.place(translateX, translateY, to);
 					}
 				} else {
 					// there is no contents
@@ -324,6 +377,11 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 
 		get kind() {
 			return AST.xypic.newdir.prototype.kind;
+		}
+
+		computeBBox(bbox, recompute=false) {
+			let newdir = this.node.cmd;
+			xypicGlobalContext.repositories.dirRepository.put(newdir.dirMain, newdir.compositeObject);
 		}
 
 		_toSVG(parent) {
@@ -355,7 +413,7 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 			const graphics = this.node.cmd;
 			graphics.setup(context);
 			if (!env.includegraphicsWidth.isDefined || !env.includegraphicsHeight.isDefined) {
-				throw new TexError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
+				throw createXypicError("ExecutionError", "the 'width' and 'height' attributes of the \\includegraphics are required.");
 			}
 
 			const imageWidth = env.includegraphicsWidth.get;

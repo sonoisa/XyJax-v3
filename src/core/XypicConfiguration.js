@@ -16,14 +16,14 @@
  */
 
 // for DEBUGGING
-// import {} from "../../src/util/EnableSourceMap.js";
 
 import {Configuration} from "../../mathjax/js/input/tex/Configuration.js";
 import {CommandMap, EnvironmentMap} from "../../mathjax/js/input/tex/SymbolMap.js";
 import BaseMethods from "../../mathjax/js/input/tex/base/BaseMethods.js";
 import ParseMethods from "../../mathjax/js/input/tex/ParseMethods.js";
 import TexParser from "../../mathjax/js/input/tex/TexParser.js";
-import TexError from "../../mathjax/js/input/tex/TexError.js";
+
+import createXypicError from "../core/XypicError.js";
 
 import {XypicConstants} from "../util/XypicConstants.js"
 import {Parsers, StringReader} from "../fp/Parsers.js";
@@ -63,7 +63,7 @@ function parseXypic(texParser, xyParser, mmlKind) {
 		const pos = parseContext.lastNoSuccess.next.pos();
 		const content = pos.lineContents();
 		const text = parseContext.lastNoSuccess.msg + '. Parse error at or near "' + content + '".';
-		throw new TexError("SyntaxError", text);
+		throw createXypicError("SyntaxError", text);
 	}
 }
 

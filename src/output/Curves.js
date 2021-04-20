@@ -16,8 +16,7 @@
  */
 
 
-import TexError from "../../mathjax/js/input/tex/TexError.js";
-
+import createXypicError from "../core/XypicError.js";
 import {XypicConstants} from "../util/XypicConstants.js";
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 import {XypicUtil} from "../util/XypicUtil.js";
@@ -149,7 +148,7 @@ export class Env {
 
 	popPos() {
 		if (this.stack.isEmpty) {
-			throw new TexError("ExecutionError", "cannot pop from the empty stack");
+			throw createXypicError("ExecutionError", "cannot pop from the empty stack");
 		} else {
 			var pos = this.stack.head;
 			this.stack = this.stack.tail;
@@ -173,9 +172,9 @@ export class Env {
 		var pos = this.savedPosition[id];
 		if (pos === undefined) {
 			if (errorMessage !== undefined) {
-				throw new TexError("ExecutionError", errorMessage);
+				throw createXypicError("ExecutionError", errorMessage);
 			} else {
-				throw new TexError("ExecutionError", '<pos> "' + id + '" not defined.');
+				throw createXypicError("ExecutionError", '<pos> "' + id + '" not defined.');
 			}
 		} else {
 			return pos;
@@ -225,7 +224,7 @@ export class Curve {
 	
 	length(t) {
 		if (t < 0 || t > 1) {
-			throw new TexError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
+			throw createXypicError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
 		}
 		this.buildLengthArray();
 		
@@ -1305,7 +1304,7 @@ Curve.QuadBezier = class Curve_QuadBezier extends Curve {
 	
 	divide(t) {
 		if (t < 0 || t > 1) {
-			throw new TexError("ExecutionError", "illegal quadratic Bezier parameter t:"+t);
+			throw createXypicError("ExecutionError", "illegal quadratic Bezier parameter t:"+t);
 		}
 		
 		var x0 = this.cp0.x;
@@ -1598,7 +1597,7 @@ Curve.CubicBezier = class Curve_CubicBezier extends Curve {
 	
 	divide(t) {
 		if (t < 0 || t > 1) {
-			throw new TexError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
+			throw createXypicError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
 		}
 		
 		var x0 = this.cp0.x;
@@ -1865,7 +1864,7 @@ Curve.CubicBeziers = class Curve_CubicBeziers extends Curve {
 	
 	divide(t) {
 		if (t < 0 || t > 1) {
-			throw new TexError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
+			throw createXypicError("ExecutionError", "illegal cubic Bezier parameter t:"+t);
 		} else if (t === 0) {
 			return [new Curve.CubicBeziers([]), this];
 		} else if (t === 1) {
@@ -2032,7 +2031,7 @@ Curve.CubicBeziers = class Curve_CubicBeziers extends Curve {
 Curve.CubicBSpline = class Curve_CubicBSpline {
 	constructor(s, intCps, e) {
 		if (intCps.length < 1) {
-			throw new TexError("ExecutionError", "the number of internal control points of cubic B-spline must be greater than or equal to 1");
+			throw createXypicError("ExecutionError", "the number of internal control points of cubic B-spline must be greater than or equal to 1");
 		}
 		
 		var controlPoints = [];

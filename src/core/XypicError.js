@@ -15,21 +15,10 @@
  *  limitations under the License.
  */
 
-import {MathJax, combineDefaults} from '../../mathjax/js/components/global.js';
+import TexError from "../../mathjax/js/input/tex/TexError.js";
 
-//
-//  Make sure all output directories are available, even if one or more isn't loaded
-//
-combineDefaults(MathJax._, 'output', {
-  common: {
-    Wrapper: {}
-  },
-  chtml: {
-    Wrapper: {},
-    Wrappers_ts: {}
-  },
-  svg: {
-    Wrapper: {},
-    Wrappers_ts: {}
-  }
-});
+
+export default function createXypicError(id, message) {
+    console.error(id, message);
+    return new TexError(id, message);
+}
