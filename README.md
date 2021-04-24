@@ -21,6 +21,30 @@ This software is under development.
 
 ## Installation instructions
 
+### Using XyJax-v3 from a CDN
+
+(ref. test/sample-xyjax-v3-CDN.html)
+
+1. In your html, configure it to load the xypic.js.
+```
+<script>
+  MathJax = {
+    loader: {
+      load: ['[custom]/xypic.js'],
+      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@0.2.0/build/'}
+    },
+    tex: {
+      packages: {'[+]': ['xypic']}
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-chtml-full.js"></script>
+<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg-full.js"></script> -->
+```
+
+
+### Hosting your own copy of XyJax-v3
+
 (ref. test/sample-xyjax-v3-chtml.html and test/sample-xyjax-v3-svg.html)
 
 1. Download build/xypic.js. The rest of the files are not necessary for use. 
@@ -40,6 +64,7 @@ This software is under development.
   };
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-chtml-full.js"></script>
+<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg-full.js"></script> -->
 ```
 
 
@@ -57,8 +82,6 @@ This software is under development.
 
 
 ## For Developers
-
-**UNDER CONSTRUCTION**
 
 ### How to build xypic.js for production
 ```
