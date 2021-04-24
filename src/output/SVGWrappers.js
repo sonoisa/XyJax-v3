@@ -344,6 +344,7 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 							em2px(svgWidth), em2px(svgHeight)
 						].join(" "));
 
+					// for DEBUGGING
 					// this.drawBBox();
 
 					const fixedScale = this.fixed(1) / em2px(1);
@@ -432,13 +433,16 @@ export function CreateSVGWrapper(wrapper, wrappers) {
 		_toSVG(parent) {
 			const svgNode = this.standardSVGnode(parent);
 			this.svgNode = svgNode;
-			this.adaptor.setStyle(svgNode, "position", "relative");
-			this.adaptor.setStyle(svgNode, "vertical-align", "0em");
-
-			const img = this.html("img");
-			this.adaptor.setAttribute(img, "src", this.filepath);
-			this.adaptor.setStyle(img, "width", round2(this.imageWidth) + "em");
-			this.adaptor.setStyle(img, "height", round2(this.imageHeight) + "em");
+			const fixedScale = this.fixed(1);
+			const img = this.svg("image", {
+				"x": "0",
+				"y": "0",
+				"preserveAspectRatio": "none",
+				"width": round2(this.imageWidth),
+				"height": round2(this.imageHeight),
+				"transform": "scale(" + fixedScale + "," + (-fixedScale) + ") translate(0," + round2(-this.imageHeight) + ")"
+			});
+			this.adaptor.setAttribute(img, "xlink:href", this.filepath, XLINKNS);
 			this.adaptor.append(svgNode, img);
 		}
 	}

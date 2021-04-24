@@ -7,10 +7,6 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
-    options: {
-      compileError(doc, math, err) {throw err},
-      typesetError(doc, math, err) {throw err}
-    },
     loader: {
       load: ['[custom]/xypic.js'],
       paths: {custom: '../build'}
@@ -20,33 +16,11 @@
     }
   };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg-full.js"></script>
+  <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-chtml-full.js"></script> -->
   <!-- <script id="MathJax-script" async src="../mathjax/es5/tex-chtml-full.js"></script> -->
 </head>
 <body>
-
-<!--
-\[
-\int_0^\infty e^{-x^2/2} = ?
-\]
-
-\begin{xy}
-\xymatrix {
-U \ar@/_/[ddr]_y \ar@{.>}[dr]|{\langle x,y \rangle} \ar@/^/[drr]^x \\
- & X \times_Z Y \ar[d]^q \ar[r]_p & X \ar[d]_f \\
- & Y \ar[r]^g & Z
-}
-\end{xy}
-
-\[
-\xymatrix {
-U \ar@/_/[ddr]_y \ar@{.>}[dr]|{\langle x,y \rangle} \ar@/^/[drr]^x \\
- & X \times_Z Y \ar[d]^q \ar[r]_p & X \ar[d]_f \\
- & Y \ar[r]^g & Z
-}
-\]
--->
-
 
 <blockquote>
 
@@ -120,7 +94,7 @@ B
 \newcommand\from{\leftarrow}
 \begin{array}{clcll}\hline
 \text{Impl} & \text{Syntax} &&&\quad& \text{Action} \\\hline
-\checkmark & \nt{xy env} & \to & \bf\text{\\begin{xy} $\nt{pos}\,\nt{decor}$ \\end{xy}} && c \from \nt{coord} \\
+\checkmark & \nt{xy env} & \to & \bf\text{\\begin\{xy\} $\nt{pos}\,\nt{decor}$ \\end\{xy\}} && c \from \nt{coord} \\
 \checkmark & \nt{pos} & \to & \nt{coord} && c \from \nt{coord} \\
 \checkmark &  & | & \nt{pos}\,{\bf+}\,\nt{coord} && c \from \nt{pos} + \nt{coord}^{3a} \\
 \checkmark &  & | & \nt{pos}\,{\bf-}\,\nt{coord} && c \from \nt{pos} - \nt{coord}^{3a} \\

@@ -10,22 +10,22 @@
   },
   "main": "src/xypic.js",
   "scripts": {
-    "build_mathjax": "git clone https://github.com/mathjax/MathJax-src.git mathjax; cd mathjax; npm install; npm run compile; npm run make-components",
-    "build_mathjax_for_debug": "git clone https://github.com/mathjax/MathJax-src.git mathjax; cd mathjax; npm install; npm install --save source-map-support; gsed -i 's/module.exports = PACKAGE;/module.exports = function (name, mathjax, libs, dir, dist) { const config = PACKAGE(name, mathjax, libs, dir, dist); config[\"devtool\"] = \"inline-source-map\"; return config };/' components/webpack.common.js; npm run compile; npm run make-components",
-    "build": "[ ! -d \"./mathjax\" ] && npm run build_mathjax; cd components/xypic; node ../bin/pack",
+    "clone_mathjax": "git clone https://github.com/mathjax/MathJax-src.git mathjax",
+    "build_mathjax": "npm run --silent clone_mathjax; cd mathjax && npm install && npm run compile && npm run make-components",
+    "build_mathjax_for_debug": "npm run --silent clone_mathjax; cd mathjax && npm install && npm install --save source-map-support && sed -i 's/module.exports = PACKAGE;/module.exports = function (name, js, libs, dir, dist) { const config = PACKAGE(name, js, libs, dir, dist); config[\"devtool\"] = \"inline-source-map\"; return config };/' components/webpack.common.js && npm run compile && npm run make-components",
+    "build": "[ ! -d mathjax ] && npm run build_mathjax; cd components/xypic && node ../../mathjax/components/bin/pack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm ./build/*.js ./build/*.txt"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "babel-loader": "^8.1.0",
-    "path-browserify": "^1.0.1",
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
     "source-map-support": "^0.5.19",
     "ssri": ">=8.0.1",
-    "terser-webpack-plugin": "^5.0.3",
-    "webpack": "^5.3.2",
-    "webpack-cli": "^4.1.0"
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.35.0",
+    "webpack-cli": "^4.6.0"
   },
   "dependencies": {
     "esm": "^3.2.25"

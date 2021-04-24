@@ -16,7 +16,7 @@
  */
 
 const webpack = require('webpack');
-const PACKAGE = require('../webpack.common.js');
+const PACKAGE = require('../../mathjax/components/webpack.common.js');
 
 const package = PACKAGE(
   'xypic',                               // the package to build

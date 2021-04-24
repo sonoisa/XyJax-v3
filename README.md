@@ -21,9 +21,7 @@ This software is under development.
 
 ## Installation instructions
 
-**UNDER CONSTRUCTION**
-
-(ref. test/sample-xyjax-v3.html)
+(ref. test/sample-xyjax-v3-chtml.html and test/sample-xyjax-v3-svg.html)
 
 1. Download build/xypic.js. The rest of the files are not necessary for use. 
 
@@ -41,23 +39,24 @@ This software is under development.
     }
   };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-chtml-full.js"></script>
 ```
 
 
 ## Present Limitation
 
 - Supported MathJax version:
-    - 3.1.2
+    - 3.1.4+
 - Supported Renderer:
     - CHTML
-    - (SVG does not work now. But I have a plan to support it.)
+    - SVG
+    - Switching between these renderers is currently not supported.
 
 - Accessibility does not work.  
 **CAUTION**: If Accessibility or Collapsible Math is enabled, XyJax/MathJax will crash.
 
 
-## For Developpers
+## For Developers
 
 **UNDER CONSTRUCTION**
 
