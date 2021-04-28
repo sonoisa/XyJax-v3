@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/sonoisa/XyJax-v3/"
   },
-  "main": "src/xypic.js",
+  "main": "components/xypic/xypic.js",
   "scripts": {
     "clone_mathjax": "git clone https://github.com/mathjax/MathJax-src.git mathjax",
     "build_mathjax": "npm run --silent clone_mathjax; cd mathjax && npm install && npm run compile && npm run make-components",
