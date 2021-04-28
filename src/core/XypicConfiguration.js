@@ -16,6 +16,7 @@
  */
 
 // for DEBUGGING
+// import {} from "../util/EnableSourceMap.js";
 
 import {Configuration} from "../../mathjax/js/input/tex/Configuration.js";
 import {CommandMap, EnvironmentMap} from "../../mathjax/js/input/tex/SymbolMap.js";
