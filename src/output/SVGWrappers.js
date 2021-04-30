@@ -39,7 +39,7 @@ const round2 = XypicUtil.round2;
 
 export function CreateSVGWrapper(wrapper, wrappers) {
 
-	class AbstractSVGxypic extends SVGWrapper {
+	class AbstractSVGxypic extends wrapper {
 		constructor(factory, node, parent=null) {
 			super(factory, node, parent);
 

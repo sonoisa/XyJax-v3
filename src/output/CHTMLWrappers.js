@@ -38,7 +38,7 @@ const round2 = XypicUtil.round2;
 
 export function CreateCHTMLWrapper(wrapper, wrappers) {
 
-	class AbstractCHTMLxypic extends CHTMLWrapper {
+	class AbstractCHTMLxypic extends wrapper {
 		constructor(factory, node, parent=null) {
 			super(factory, node, parent);
 

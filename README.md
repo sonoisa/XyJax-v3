@@ -75,7 +75,6 @@ This software is under development.
 - Supported Renderer:
     - CHTML
     - SVG
-    - Switching between these renderers is currently not supported.
 
 - Accessibility does not work.  
 **CAUTION**: If Accessibility or Collapsible Math is enabled, XyJax/MathJax will crash.

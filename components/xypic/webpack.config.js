@@ -39,6 +39,7 @@ package.module.rules[0].exclude = /node_modules/;
 package.module.rules[0].use.options.plugins = [["@babel/plugin-proposal-class-properties", {loose: true}]];
 
 // for DEBUGGING
-// package["devtool"] = "inline-source-map";  // for DEBUGGING
+// package["devtool"] = "inline-source-map";
+// package["resolve"] = { fallback: { "path": false } };
 
 module.exports = package;
