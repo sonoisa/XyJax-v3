@@ -40,12 +40,14 @@ import {} from "../output/AugmentXyNodes.js";
 
 function parseXypic(texParser, xyParser, mmlKind) {
 	const textMmls = [];
+	const textMmlIds = [];
 
 	const createTextNode = function (text) {
 		const textMml = new TexParser(text, texParser.stack.env, texParser.configuration).mml();
-		textMml.xypicTextObjectId = xypicGlobalContext.textObjectIdCounter;
+		const textObjectId = xypicGlobalContext.textObjectIdCounter;
 		xypicGlobalContext.textObjectIdCounter++;
 		textMmls.push(textMml);
+		textMmlIds.push(textObjectId);
 		return textMml;
 	};
 
@@ -59,7 +61,13 @@ function parseXypic(texParser, xyParser, mmlKind) {
 	texParser.i = result.next.offset;
 
 	if (result.successful) {
-		const mml = texParser.create(mmlKind, result.get(), textMmls);
+		const commandId = "" + xypicGlobalContext.xypicCommandIdCounter;
+		xypicGlobalContext.xypicCommandIdCounter++;
+		xypicGlobalContext.xypicCommandMap[commandId] = result.get();
+
+		const textMmlIdsJson = JSON.stringify(textMmlIds);
+
+		const mml = texParser.create(mmlKind, { "data-cmd-id": commandId, "data-text-mml-ids": textMmlIdsJson }, textMmls);
 		return mml;
 	} else {
 		const pos = parseContext.lastNoSuccess.next.pos();
@@ -118,6 +126,8 @@ const XypicEnvironmentMap = new EnvironmentMap("xypic-environment", ParseMethods
 function initializeXypicGlobalContext() {
 	// xypicGlobalContext.repositories.modifierRepository = new ModifierRepository();
 	// xypicGlobalContext.repositories.dirRepository = new DirRepository();
+	xypicGlobalContext.xypicCommandIdCounter = 0;
+	xypicGlobalContext.xypicCommandMap = {};
 	xypicGlobalContext.textObjectIdCounter = 0;
 	xypicGlobalContext.wrapperOfTextObjectMap = {};
 }
@@ -134,17 +144,17 @@ const XypicConfiguration = Configuration.create(
 			}
 		],
 		nodes: {
-			"xypic": function(nodeFactory, command, textMmls) {
+			"xypic": function(nodeFactory, properties, textMmls) {
 				const mmlFactory = nodeFactory.mmlFactory;
-				return new AST.xypic(mmlFactory, command, textMmls);
+				return new AST.xypic(mmlFactory, properties, textMmls);
 			},
-			"xypic-newdir": function(nodeFactory, command, textMmls) {
+			"xypic-newdir": function(nodeFactory, properties, textMmls) {
 				const mmlFactory = nodeFactory.mmlFactory;
-				return new AST.xypic.newdir(mmlFactory, command, textMmls);
+				return new AST.xypic.newdir(mmlFactory, properties, textMmls);
 			},
-			"xypic-includegraphics": function(nodeFactory, command, textMmls) {
+			"xypic-includegraphics": function(nodeFactory, properties, textMmls) {
 				const mmlFactory = nodeFactory.mmlFactory;
-				return new AST.xypic.includegraphics(mmlFactory, command, textMmls);
+				return new AST.xypic.includegraphics(mmlFactory, properties, textMmls);
 			}
 		}
 	}

@@ -18,16 +18,26 @@
 
 import {AbstractMmlNode, TEXCLASS} from "../../mathjax/js/core/MmlTree/MmlNode.js";
 import {MML} from "../../mathjax/js/core/MmlTree/MML.js";
+import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 
 
 export class AST {};
 
 
 class BaseXyMmlNode extends AbstractMmlNode {
-	constructor(mmlFactory, textMmls) {
-		super(mmlFactory, {}, textMmls);
+	constructor(mmlFactory, properties, textMmls) {
+		super(mmlFactory, properties, textMmls);
 		this.textMmls = textMmls;
 		this.texClass = TEXCLASS.ORD;
+
+		const commandId = properties["data-cmd-id"];
+		const command = xypicGlobalContext.xypicCommandMap[commandId];
+		this.cmd = command;
+
+		const textMmlIds = JSON.parse(properties["data-text-mml-ids"]);
+		for (let i = 0, n = textMmlIds.length; i < n; i++) {
+			textMmls[i].xypicTextObjectId = textMmlIds[i];
+		}
 	}
 }
 
@@ -35,9 +45,8 @@ BaseXyMmlNode.defaults = AbstractMmlNode.defaults;
 
 
 AST.xypic = class AST_xypic extends BaseXyMmlNode {
-	constructor(mmlFactory, command, textMmls) {
-		super(mmlFactory, textMmls);
-		this.cmd = command;
+	constructor(mmlFactory, properties, textMmls) {
+		super(mmlFactory, properties, textMmls);
 	}
 
 	get kind() {
@@ -52,9 +61,8 @@ MML[AST.xypic.prototype.kind] = AST.xypic;
 
 
 AST.xypic.newdir = class AST_xypic_newdir extends BaseXyMmlNode {
-	constructor(mmlFactory, command, textMmls) {
-		super(mmlFactory, textMmls);
-		this.cmd = command;
+	constructor(mmlFactory, properties, textMmls) {
+		super(mmlFactory, properties, textMmls);
 	}
 
 	get kind() {
@@ -69,9 +77,8 @@ MML[AST.xypic.newdir.prototype.kind] = AST.xypic.newdir;
 
 
 AST.xypic.includegraphics = class AST_xypic_includegraphics extends BaseXyMmlNode {
-	constructor(mmlFactory, command, textMmls) {
-		super(mmlFactory, textMmls);
-		this.cmd = command;
+	constructor(mmlFactory, properties, textMmls) {
+		super(mmlFactory, properties, textMmls);
 	}
 
 	get kind() {

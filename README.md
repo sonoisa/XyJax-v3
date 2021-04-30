@@ -1,11 +1,6 @@
 # XyJax v3
  -- Xy-pic extension for **MathJax version 3** --
 
-**CAUTION**:  
-THE CURRENT VERSION IS IN ALPHA-QUALITY.  
-DEPENDING ON YOUR MathJax SETTINGS, IT MAY CRASH.  
-IT IS NOT YET RECOMMENDED FOR USE IN PRODUCTION.
-
 ----
 XyJax is an almost Xy-pic compatible extension for **MathJax version 3**.
 
@@ -31,7 +26,7 @@ This software is under development.
   MathJax = {
     loader: {
       load: ['[custom]/xypic.js'],
-      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@0.3.0/build/'}
+      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.0/build/'}
     },
     tex: {
       packages: {'[+]': ['xypic']}
@@ -68,16 +63,14 @@ This software is under development.
 ```
 
 
-## Present Limitation
+## Supported MathJax Functions
 
 - Supported MathJax version:
     - 3.1.4+
-- Supported Renderer:
+- Supported Renderers:
     - CHTML
     - SVG
-
 - Accessibility does not work.  
-**CAUTION**: If Accessibility or Collapsible Math is enabled, XyJax/MathJax will crash.
 
 
 ## For Developers

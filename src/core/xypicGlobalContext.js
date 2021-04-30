@@ -22,6 +22,8 @@ export const xypicGlobalContext = {
         modifierRepository: new ModifierRepository(),
         dirRepository: new DirRepository()
     },
+    xypicCommandIdCounter: 0,
+    xypicCommandMap: {},
     textObjectIdCounter: 0,
     wrapperOfTextObjectMap: {}
 }
