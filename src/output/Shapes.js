@@ -2306,7 +2306,7 @@ Shape.ColumnLine2ArrowheadShape = class Shape_ColumnLine2ArrowheadShape extends 
 // @3{|-}
 Shape.ColumnLine3ArrowheadShape = class Shape_ColumnLine3ArrowheadShape extends Shape.ArrowheadShape {
 	constructor(c, angle) {
-		super();  // TODO FIXME
+		super();
 		this.c = c;
 		this.angle = angle;
 		XypicUtil.memoize(this, "getBoundingBox");
@@ -2340,7 +2340,7 @@ Shape.ColumnLine3ArrowheadShape = class Shape_ColumnLine3ArrowheadShape extends 
 // @{>|}
 Shape.GTColumnArrowheadShape = class Shape_GTColumnArrowheadShape extends Shape.ArrowheadShape {
 	constructor(c, angle) {
-		super();  // TODO FIXME
+		super();
 		this.c = c;
 		this.angle = angle;
 		XypicUtil.memoize(this, "getBoundingBox");
