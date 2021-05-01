@@ -26,7 +26,7 @@ This software is under development.
   MathJax = {
     loader: {
       load: ['[custom]/xypic.js'],
-      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.0/build/'}
+      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}
     },
     tex: {
       packages: {'[+]': ['xypic']}

@@ -200,12 +200,68 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 	class CHTMLxypic extends AbstractCHTMLxypic {
 		constructor(factory, node, parent=null) {
 			super(factory, node, parent);
+			this.shape = null;
 		}
 
-		// TODO impl
-		// computeBBox(bbox, recompute=false) {
-		// 	this.bbox = new BBox({ w: width, h: height / 2, d: height / 2 });
-		// }
+		computeBBox(bbox, recompute=false) {
+			bbox.empty();
+
+			const xypicData = this.node.cmd;
+			if (xypicData) {
+				const p = this.length2em("0.2em");
+
+				if (this.shape == null) {
+					const oldSvgForDebug = xypicGlobalContext.svgForDebug;
+					const oldSvgForTestLayout = xypicGlobalContext.svgForTestLayout;
+					this._textObjects = [];
+					this.setupMeasure(this);
+		
+					const adaptor = this.adaptor;
+		
+					const t = xypicGlobalContext.measure.strokeWidth;
+		
+					const H = 1, D = 0, W = 1;
+		
+					const em2px = xypicGlobalContext.measure.em2px;
+		
+					const color = "black";
+					const svg = Graphics.createSVG(this, H, D, W, t, color, {
+						viewBox: [0, -em2px(H + D), em2px(W), em2px(H + D)].join(" "),
+						role: "img", 
+						focusable: false,
+						overflow: "visible"
+					});
+		
+					xypicGlobalContext.svgForDebug = svg;
+					xypicGlobalContext.svgForTestLayout = svg;
+		
+					const env = new Env();
+					const context = new DrawingContext(Shape.none, env);
+					xypicData.toShape(context);
+					const shape = context.shape;
+					this.shape = shape;
+
+					xypicGlobalContext.svgForDebug = oldSvgForDebug;
+					xypicGlobalContext.svgForTestLayout = oldSvgForTestLayout;
+				}
+
+				const shape = this.shape;
+				let box = shape.getBoundingBox();
+				
+				if (box !== undefined) {
+					box = new Frame.Rect(
+						0, 0,
+						{
+							l: Math.max(0, -(box.x - box.l)),
+							r: Math.max(0, box.x + box.r),
+							u: Math.max(0, box.y + box.u),
+							d: Math.max(0, -(box.y - box.d))
+						}
+					);
+					bbox.updateFrom(new BBox({ w: box.l + box.r + 2 * p, h: box.u + 2 * p, d: box.d }));
+				}
+			}
+		}
 
 		get kind() {
 			return AST.xypic.prototype.kind;
@@ -222,6 +278,9 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 				'mjx-xypic-object': {
 					"text-align": "center",
 					"position": "absolute"
+				},
+				'mjx-xypic': {
+					"position": "relative"
 				}
 			};
 		}
@@ -230,7 +289,6 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 			const chtml = this.standardCHTMLnode(parent);
 			this.cthml = chtml;
 			const adaptor = this.adaptor;
-			adaptor.setStyle(chtml, "position", "relative");
 
 			const p = this.length2em("0.2em");
 			const t = xypicGlobalContext.measure.strokeWidth;
@@ -255,15 +313,18 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 
 			const xypicData = this.node.cmd;
 			if (xypicData) {
-				const env = new Env();
-				
-				const context = new DrawingContext(Shape.none, env);
-				xypicData.toShape(context);
-				const shape = context.shape;
+				if (this.shape == null) {
+					const env = new Env();
+					const context = new DrawingContext(Shape.none, env);
+					xypicData.toShape(context);
+					const shape = context.shape;
+					this.shape = shape;
+				}
 
+				const shape = this.shape;
 				shape.draw(svg);
-				
 				let box = shape.getBoundingBox();
+
 				if (box !== undefined) {
 					box = new Frame.Rect(
 						0, 0,
