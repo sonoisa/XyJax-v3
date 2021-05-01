@@ -165,9 +165,6 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 				const thisRoot = textObjectWrapper.html("mjx-xypic-object");
 				adaptor.append(parent.getElement(), thisRoot);
 
-				// TODO define CSS
-				adaptor.setStyle(thisRoot, "text-align", "center");
-				adaptor.setStyle(thisRoot, "position", "absolute");
 				adaptor.setStyle(thisRoot, "color", svg.getCurrentColor());
 				textObjectWrapper.toCHTML(thisRoot);
 
@@ -221,6 +218,10 @@ export function CreateCHTMLWrapper(wrapper, wrappers) {
 				},
 				'.MathJax mjx-xypic path': {
 					"stroke-width": "inherit"
+				},
+				'mjx-xypic-object': {
+					"text-align": "center",
+					"position": "absolute"
 				}
 			};
 		}
