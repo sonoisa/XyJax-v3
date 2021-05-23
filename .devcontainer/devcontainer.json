@@ -1,0 +1,28 @@
+{
+	"name": "node",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": { 
+		}
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [8888],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "",
+
+	// Comment out to connect as root instead.
+	"remoteUser": "ubuntu",
+
+}
