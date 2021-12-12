@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-import TexError from "../../mathjax/js/input/tex/TexError.js";
+import TexError from "mathjax-full/js/input/tex/TexError.js";
 
 
 export default function createXypicError(id, message) {

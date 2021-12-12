@@ -79,7 +79,7 @@ This software is under development.
 ```
 $ git clone https://github.com/sonoisa/XyJax-v3 XyJax-v3
 $ cd XyJax-v3
-$ npm install
+$ npm run icloud_nosync_install
 $ npm run clean
 $ npm run build
 ```
@@ -89,8 +89,8 @@ $ npm run build
 ```
 $ git clone https://github.com/sonoisa/XyJax-v3 XyJax-v3
 $ cd XyJax-v3
-$ npm install
-# npm run build_mathjax_for_debug
+$ npm run icloud_nosync_install
 $ npm run clean
+# npm run build_mathjax_for_debug
 $ npm run build
 ```

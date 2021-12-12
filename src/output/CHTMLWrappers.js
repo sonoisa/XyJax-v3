@@ -16,9 +16,9 @@
  */
 
 
-import {CHTMLWrapper} from "../../mathjax/js/output/chtml/Wrapper.js";
-import {CHTMLWrappers} from "../../mathjax/js/output/chtml/Wrappers.js";
-import {BBox} from '../../mathjax/js/util/BBox.js';
+import {CHTMLWrapper} from "mathjax-full/js/output/chtml/Wrapper.js";
+import {CHTMLWrappers} from "mathjax-full/js/output/chtml/Wrappers.js";
+import {BBox} from 'mathjax-full/js/util/BBox.js';
 
 import createXypicError from "../core/XypicError.js";
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";

@@ -10,24 +10,34 @@
   },
   "main": "components/xypic/xypic.js",
   "scripts": {
-    "clone_mathjax": "git clone https://github.com/mathjax/MathJax-src.git mathjax",
-    "build_mathjax": "npm run --silent clone_mathjax; cd mathjax && npm install && npm run compile && npm run make-components",
-    "build_mathjax_for_debug": "npm run --silent clone_mathjax; cd mathjax && npm install && npm install --save source-map-support && sed -i 's/module.exports = PACKAGE;/module.exports = function (name, js, libs, dir, dist) { const config = PACKAGE(name, js, libs, dir, dist); config[\"devtool\"] = \"inline-source-map\"; return config };/' components/webpack.common.js && npm run compile && npm run make-components",
-    "build": "[ ! -d mathjax ] && npm run build_mathjax; cd components/xypic && node ../../mathjax/components/bin/pack",
+    "icloud_nosync_install": "mkdir -p node_modules; touch node_modules/.nosync; npm install",
+    "build_mathjax": "cd node_modules/mathjax-full && npm run compile && npm run make-components",
+    "build_mathjax_for_debug": "cd node_modules/mathjax-full && npm install --save source-map-support && sed -i 's/module.exports = PACKAGE;/module.exports = function (name, js, libs, dir, dist) { const config = PACKAGE(name, js, libs, dir, dist); config[\"devtool\"] = \"inline-source-map\"; return config };/' components/webpack.common.js && npm run compile && npm run make-components",
+    "build": "cd components/xypic && node ../../node_modules/mathjax-full/components/bin/pack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm ./build/*.js ./build/*.txt"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.16",
-    "@babel/preset-env": "^7.13.15",
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
     "babel-loader": "^8.2.2",
-    "source-map-support": "^0.5.19",
+    "copyfiles": "^2.4.1",
+    "diff": "^5.0.0",
+    "rimraf": "^3.0.2",
+    "tape": "^5.2.2",
+    "terser-webpack-plugin": "^5.1.3",
+    "tslint": "^6.1.3",
+    "tslint-jsdoc-rules": "^0.2.0",
+    "tslint-unix-formatter": "^0.2.0",
+    "typescript": "^4.3.2",
+    "typescript-tools": "^0.3.1",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
     "ssri": ">=8.0.1",
-    "terser-webpack-plugin": "^5.1.1",
-    "webpack": "^5.35.0",
-    "webpack-cli": "^4.6.0"
+    "source-map-support": "^0.5.19"
   },
   "dependencies": {
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "mathjax-full": "3.2.0"
   }
 }

@@ -16,11 +16,11 @@
  */
 
 
-import {SVGWrapper} from "../../mathjax/js/output/svg/Wrapper.js";
-import {SVGWrappers} from "../../mathjax/js/output/svg/Wrappers.js";
+import {SVGWrapper} from "mathjax-full/js/output/svg/Wrapper.js";
+import {SVGWrappers} from "mathjax-full/js/output/svg/Wrappers.js";
 
 import createXypicError from "../core/XypicError.js";
-import {BBox} from '../../mathjax/js/util/BBox.js';
+import {BBox} from 'mathjax-full/js/util/BBox.js';
 
 import {xypicGlobalContext} from "../core/xypicGlobalContext.js";
 import {AST} from "../input/XyNodes.js";
