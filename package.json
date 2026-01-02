@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "esm": "^3.2.25",
-    "mathjax-full": "3.2.0"
+    "mathjax-full": "3.2.2"
   }
 }

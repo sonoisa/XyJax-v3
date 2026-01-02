@@ -25,8 +25,8 @@ This software is under development.
 <script>
   MathJax = {
     loader: {
-      load: ['[custom]/xypic.js'],
-      paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}
+      load: ['[xypic]'],
+      paths: {xypic: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic'}
     },
     tex: {
       packages: {'[+]': ['xypic']}
@@ -49,9 +49,9 @@ This software is under development.
 <script>
   MathJax = {
     loader: {
-      load: ['[custom]/xypic.js'],
-      paths: {custom: '.'}  // specify the path where xypic.js is located. 
-                            // This example assumes that xypic.js is in the same place as html.
+      load: ['[xypic]'],
+      paths: {xypic: './xypic'}   // specify the path where xypic.js is located (without .js). 
+                                  // This example assumes that xypic.js is in the same place as html.
     },
     tex: {
       packages: {'[+]': ['xypic']}

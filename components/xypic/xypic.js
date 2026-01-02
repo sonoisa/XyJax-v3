@@ -18,12 +18,19 @@
 import './preload.js';
 import '../../src/core/XypicConfiguration.js';
 
-
 import {CreateCHTMLWrapper} from '../../src/output/CHTMLWrappers.js';
 import {CreateSVGWrapper} from '../../src/output/SVGWrappers.js';
+import {VERSION} from 'mathjax-full/js/components/version.js';
 
 //
-//  Check to see which output jax are loaded, and
+//    Add component version information
+//
+if (MathJax.loader) {
+  MathJax.loader.checkVersion('[xypic]', VERSION, 'tex-extension');
+}
+
+//
+//    Check to see which output jax are loaded, and
 //    set up callbacks for if the other is loaded via the menu
 //    so that we can set up the wrappers for them.
 //

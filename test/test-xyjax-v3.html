@@ -8,16 +8,16 @@
   <script>
   MathJax = {
     loader: {
-      load: ['[custom]/xypic.js'],
-      paths: {custom: '../build'}
+      load: ['[xypic]'],
+      paths: {xypic: '../build/xypic'}
     },
     tex: {
       packages: {'[+]': ['xypic']}
     }
   };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg-full.js"></script>
-  <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-chtml-full.js"></script> -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+  <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml-full.js"></script> -->
   <!-- <script id="MathJax-script" async src="../node_modules/mathjax-full/es5/tex-chtml-full.js"></script> -->
 </head>
 <body>
@@ -94,7 +94,7 @@ B
 \newcommand\from{\leftarrow}
 \begin{array}{clcll}\hline
 \text{Impl} & \text{Syntax} &&&\quad& \text{Action} \\\hline
-\checkmark & \nt{xy env} & \to & \bf\text{\\begin\{xy\} $\nt{pos}\,\nt{decor}$ \\end\{xy\}} && c \from \nt{coord} \\
+\checkmark & \nt{xy env} & \to & \textbf{\\begin\{xy\} $\nt{pos}\,\nt{decor}$ \\end\{xy\}} && c \from \nt{coord} \\
 \checkmark & \nt{pos} & \to & \nt{coord} && c \from \nt{coord} \\
 \checkmark &  & | & \nt{pos}\,{\bf+}\,\nt{coord} && c \from \nt{pos} + \nt{coord}^{3a} \\
 \checkmark &  & | & \nt{pos}\,{\bf-}\,\nt{coord} && c \from \nt{pos} - \nt{coord}^{3a} \\
@@ -726,7 +726,7 @@ Xy-picの例\( (\begin{xy}(0,0);<1cm,10mm>**@{} ?>*@3{>}\end{xy}) \)です。
 \[
 \begin{xy}
 *+<1.5pt>[F**:white]++[F**:red]{\text{text with background}},
-+!D+/d1pc/, *++[F**:black][white]{\bf{\text{bold white on black}}}
++!D+/d1pc/, *++[F**:black][white]{\textbf{bold white on black}}
 \end{xy}
 \]
 
@@ -1221,7 +1221,7 @@ p+<6pc,-.5pc>*{D}="D",
 
 \[
 \begin{xy}
-(0,0)*{}ABC}
+(0,0)*{ABC}
 \end{xy}
 \]
 
