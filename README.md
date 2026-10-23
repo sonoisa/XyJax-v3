@@ -2,6 +2,12 @@
  -- Xy-pic extension for **MathJax version 3** --
 
 ----
+
+> [!IMPORTANT]
+> This repository is for **MathJax version 3**.
+> For **MathJax version 4**, please use **XyJax-v4**: https://github.com/sonoisa/XyJax-v4
+
+
 XyJax is an almost Xy-pic compatible extension for **MathJax version 3**.
 
 This extension enables you to draw various graphs and diagrams.
